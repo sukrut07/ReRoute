@@ -1,0 +1,24 @@
+{
+  "customer": {
+    "id": "CUS-DEMO-001",
+    "name": "Sukrut Dusane"
+  },
+  "journey": {
+    "id": "R-1024",
+    "type": "HEALTH_INSURANCE_CLAIM",
+    "status": "REROUTE",
+    "progress": 72
+  },
+  "documents": [
+    { "id": "DOC-01", "type": "POLICY", "status": "VERIFIED", "dob": "1998-07-14" },
+    { "id": "DOC-02", "type": "HOSPITAL_BILL", "status": "CONFLICT", "dob": "1998-07-17", "amount": 84500 },
+    { "id": "DOC-03", "type": "DISCHARGE_SUMMARY", "status": "VERIFIED" },
+    { "id": "DOC-04", "type": "IDENTITY", "status": "VERIFIED", "dob": "1998-07-14" }
+  ],
+  "risk": {
+    "score": 42,
+    "level": "MEDIUM",
+    "signals": ["DOB_MISMATCH", "CLAIM_AMOUNT_ANOMALY"]
+  },
+  "nextAction": "HUMAN_REVIEW"
+}
