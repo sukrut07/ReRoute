@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #f5f5f0;
+  --ink: #101010;
+  --muted: #686868;
+  --line: #171717;
+  --green: #54e38e;
+  --green-soft: #dff8e9;
+  --amber: #ffd166;
+  --red: #ff5c5c;
+  --blue: #bcd8ff;
+  --card: #fffef8;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+::selection { background: var(--ink); color: var(--green); }
+
+.brutal-border { border: 2px solid var(--line); }
+.brutal-shadow { box-shadow: 6px 6px 0 var(--line); }
+.mono { font-family: 'DM Mono', monospace; }
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(16,16,16,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16,16,16,.055) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.interactive-dot {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--line);
+  background: var(--green);
+  border-radius: 50%;
+  position: absolute;
+  transition: transform 120ms ease;
+}
+
+.route-line { height: 2px; background: var(--line); flex: 1; min-width: 24px; }
+
+@media (max-width: 760px) {
+  .desktop-nav { display: none; }
+}
