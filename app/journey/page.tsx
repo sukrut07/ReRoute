@@ -12,6 +12,7 @@ import { VerificationStep } from "@/components/journey/verification-step";
 import { ConflictRerouteStep } from "@/components/journey/conflict-reroute-step";
 import { RiskStep } from "@/components/journey/risk-step";
 import { CompletionStep } from "@/components/journey/completion-step";
+import { InteractiveJourneySandbox } from "@/components/journey/interactive-journey-sandbox";
 import { ExplainabilityModal } from "@/components/explainability-modal";
 import { EvidenceModal } from "@/components/evidence-modal";
 import {
@@ -157,6 +158,49 @@ export default function JourneyPage() {
     setCurrentStepId("risk");
   };
 
+  const handleApplyCustomValues = (customValues: {
+    billDob: string;
+    claimAmount: number;
+    hospitalName: string;
+  }) => {
+    const isConflict = customValues.billDob.trim() !== "14/07/1998";
+
+    setDocuments((prev) =>
+      prev.map((doc) =>
+        doc.category === "Hospital Bill"
+          ? {
+              ...doc,
+              status: isConflict ? ("CONFLICT" as const) : ("VERIFIED" as const),
+              extractedFields: {
+                ...doc.extractedFields,
+                "Date of Birth": customValues.billDob,
+                "Claim Amount": `₹${customValues.claimAmount.toLocaleString("en-IN")}`,
+                "Hospital Name": customValues.hospitalName,
+              },
+            }
+          : doc
+      )
+    );
+
+    setConflict((prev) => ({
+      ...prev,
+      resolved: !isConflict,
+      sourceB: {
+        ...prev.sourceB,
+        value: customValues.billDob,
+      },
+    }));
+
+    if (isConflict) {
+      setCurrentStepId("reroute");
+      setSteps((prev) =>
+        prev.map((s) => (s.id === "reroute" ? { ...s, status: "current" as const } : s))
+      );
+    } else {
+      setCurrentStepId("risk");
+    }
+  };
+
   // Compute risk assessment dynamically
   const riskAssessment = RiskEngine.assessRisk({
     evidence: documents,
@@ -234,7 +278,13 @@ export default function JourneyPage() {
           />
 
           {/* Right Main Task Panel */}
-          <div className="min-w-0">
+          <div className="min-w-0 space-y-6">
+            <InteractiveJourneySandbox
+              currentBillDob={documents.find((d) => d.category === "Hospital Bill")?.extractedFields["Date of Birth"] || "17/07/1998"}
+              currentAmount={currentScenario === "high_risk" ? 185000 : 84500}
+              onApplyCustomValues={handleApplyCustomValues}
+            />
+
             {currentStepId === "goal" && (
               <GoalStep
                 initialGoal={customerGoal}

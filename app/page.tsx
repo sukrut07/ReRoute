@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { InteractiveShell } from "@/components/interactive-shell";
 import { Navbar } from "@/components/navbar";
+import { LandingInteractiveSuite } from "@/components/landing-interactive-suite";
 
 const featureTree = [
   {
@@ -354,6 +355,11 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Interactive Simulator & ROI Calculator Suite */}
+      <section id="simulator" className="relative z-10 mx-auto max-w-7xl px-6 py-16 lg:px-10">
+        <LandingInteractiveSuite />
       </section>
 
       {/* Key Feature Tree Section */}
