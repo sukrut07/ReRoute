@@ -1,8 +1,7 @@
 "use client";
 
-import { DEMO_SCENARIOS } from "@/lib/synthetic-data";
 import { DemoScenarioId } from "@/lib/types";
-import { Sparkles, Info } from "lucide-react";
+import { Sparkles, SlidersHorizontal } from "lucide-react";
 
 interface DemoBannerProps {
   currentScenario: DemoScenarioId;
@@ -10,43 +9,49 @@ interface DemoBannerProps {
 }
 
 export function DemoBanner({ currentScenario, onSelectScenario }: DemoBannerProps) {
+  const scenarioOptions: { id: DemoScenarioId; label: string; badge?: string }[] = [
+    { id: "dob_conflict", label: "Conflict (Default)", badge: "CORE" },
+    { id: "happy_path", label: "Happy Path", badge: "CLEAN" },
+    { id: "missing_evidence", label: "Missing Evidence", badge: "RECOVERY" },
+    { id: "high_risk", label: "Low Confidence", badge: "ESCALATE" },
+  ];
+
   return (
-    <div className="border-b-2 border-black bg-[#fffef8] px-4 py-2.5 sm:px-6">
+    <div className="border-b-2 border-[#101010] bg-[#FAF9F5] px-4 py-2.5 sm:px-6">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2">
-          <span className="mono flex items-center gap-1.5 border border-black bg-black px-2 py-0.5 font-black uppercase text-[#54e38e]">
-            <Sparkles size={12} />
-            DEMO MODE ACTIVE
+          <span className="mono flex items-center gap-1.5 rounded border border-[#101010] bg-[#101010] px-2 py-0.5 font-bold uppercase text-[#20C77A]">
+            <SlidersHorizontal size={12} />
+            DEMO SCENARIO:
           </span>
-          <span className="hidden text-neutral-600 md:inline">
-            Switch scenarios to test instant rerouting, missing document prompts, and risk handling:
+          <span className="hidden text-[#555555] md:inline">
+            Select test scenarios to inspect live deterministic rerouting:
           </span>
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5">
-          {DEMO_SCENARIOS.map((scenario) => {
-            const isSelected = currentScenario === scenario.id;
+          {scenarioOptions.map((s) => {
+            const isSelected = currentScenario === s.id;
             return (
               <button
-                key={scenario.id}
-                onClick={() => onSelectScenario(scenario.id)}
-                className={`mono flex items-center gap-1.5 rounded px-2.5 py-1 text-[11px] font-bold transition-all ${
+                key={s.id}
+                onClick={() => onSelectScenario(s.id)}
+                className={`mono flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-bold transition-all ${
                   isSelected
-                    ? "border-2 border-black bg-[#54e38e] text-black shadow-[2px_2px_0px_#101010]"
-                    : "border border-neutral-400 bg-white text-neutral-700 hover:border-black hover:bg-neutral-100"
+                    ? "border-2 border-[#101010] bg-[#20C77A] text-[#101010] shadow-[2px_2px_0px_#101010]"
+                    : "border border-neutral-300 bg-white text-[#555555] hover:border-black hover:text-black"
                 }`}
-                title={scenario.description}
               >
-                <span>{scenario.name}</span>
-                <span
-                  className="rounded px-1 py-0.2 text-[9px] font-black uppercase"
-                  style={{
-                    backgroundColor: isSelected ? "#101010" : "#eee",
-                    color: isSelected ? "#54e38e" : "#555",
-                  }}
-                >
-                  {scenario.badge}
-                </span>
+                <span>{s.label}</span>
+                {s.badge && (
+                  <span
+                    className={`rounded px-1 text-[9px] font-black uppercase ${
+                      isSelected ? "bg-[#101010] text-[#20C77A]" : "bg-neutral-100 text-neutral-600"
+                    }`}
+                  >
+                    {s.badge}
+                  </span>
+                )}
               </button>
             );
           })}

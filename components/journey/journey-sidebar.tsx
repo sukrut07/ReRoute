@@ -18,104 +18,96 @@ export function JourneySidebar({
   onStepSelect,
   isConflictActive,
 }: JourneySidebarProps) {
+  // Section 11 Rail mapping: Goal, Policy, Claim Details, Documents, Verification, Completion
+  const railItems = [
+    { id: "goal" as StepId, label: "Goal", fullTitle: "Goal Intake" },
+    { id: "policy" as StepId, label: "Policy", fullTitle: "Policy Check" },
+    { id: "evidence" as StepId, label: "Claim Details", fullTitle: "Evidence Collection" },
+    { id: "extraction" as StepId, label: "Documents", fullTitle: "Document Intelligence" },
+    { id: "verification" as StepId, label: "Verification", fullTitle: "Cross-Verification" },
+    { id: "completion" as StepId, label: "Completion", fullTitle: "Claim Completed" },
+  ];
+
   return (
-    <aside className="brutal-border brutal-shadow bg-[#fffef8] p-5 lg:w-80">
+    <aside className="rounded-lg border-2 border-[#101010] bg-white p-5 shadow-[4px_4px_0px_#101010]">
       {/* Journey Header */}
-      <div className="border-b-2 border-black pb-4">
-        <div className="mono flex items-center justify-between text-xs font-bold text-neutral-600">
-          <span>JOURNEY STATE</span>
-          <span className="border border-black bg-black px-1.5 py-0.5 text-[10px] font-black text-[#54e38e]">
+      <div className="border-b-2 border-[#101010] pb-4">
+        <div className="mono flex items-center justify-between text-xs font-bold text-[#555555]">
+          <span>JOURNEY RAIL</span>
+          <span className="rounded border border-[#101010] bg-[#101010] px-1.5 py-0.2 text-[10px] font-black text-[#20C77A]">
             CASE #R-1024
           </span>
         </div>
-        <h2 className="mt-2 text-xl font-black tracking-tight text-[#101010]">
+        <h2 className="mt-2 text-lg font-black tracking-tight text-[#101010]">
           Health Insurance Claim
         </h2>
-        <p className="mt-1 text-xs text-neutral-600">
-          Reimbursement for inpatient surgery
+        <p className="mt-0.5 text-xs text-[#555555]">
+          Inpatient Surgery Reimbursement
         </p>
-
-        {/* Progress Bar */}
-        <div className="mt-4">
-          <div className="mono flex items-center justify-between text-xs font-bold">
-            <span className="text-neutral-500">COMPLETION</span>
-            <span className="font-black text-[#101010]">{progressPercent}%</span>
-          </div>
-          <div className="mt-1.5 h-3 w-full border-2 border-black bg-neutral-200">
-            <div
-              className={`h-full transition-all duration-300 ${
-                isConflictActive ? "bg-[#ffd166]" : "bg-[#54e38e]"
-              }`}
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-          {isConflictActive && (
-            <div className="mt-2 flex items-center gap-1.5 border border-amber-600 bg-amber-100 p-1.5 text-[11px] font-bold text-amber-900">
-              <AlertTriangle size={13} className="shrink-0 text-amber-700" />
-              <span>Reroute Action Required</span>
-            </div>
-          )}
-        </div>
       </div>
 
-      {/* Step Navigation Tree */}
-      <nav className="mt-5 space-y-1">
-        {steps.map((step, idx) => {
-          const isCurrent = step.id === currentStepId;
-          const isDone = step.status === "completed";
-          const isInterrupted = step.status === "interrupted";
+      {/* Journey Rail Items */}
+      <nav className="mt-4 space-y-1" aria-label="Journey Steps">
+        {railItems.map((item, idx) => {
+          const isCurrent =
+            currentStepId === item.id ||
+            (item.id === "verification" && currentStepId === "reroute") ||
+            (item.id === "completion" && currentStepId === "risk");
+
+          const matchingStep = steps.find((s) => s.id === item.id);
+          const isDone = matchingStep?.status === "completed" && !isCurrent;
+          const isBlocked = isCurrent && isConflictActive;
 
           return (
             <button
-              key={step.id}
-              onClick={() => onStepSelect(step.id)}
-              className={`flex w-full items-center justify-between rounded p-2.5 text-left text-xs font-bold transition-all ${
+              key={item.id}
+              onClick={() => onStepSelect(item.id === "verification" && isConflictActive ? "reroute" : item.id)}
+              className={`flex w-full items-center justify-between rounded-md p-2.5 text-left text-xs font-bold transition-all ${
                 isCurrent
-                  ? "border-2 border-black bg-black text-[#54e38e] shadow-[2px_2px_0px_#54e38e]"
-                  : isInterrupted
-                  ? "border-2 border-amber-500 bg-[#fff0b8] text-amber-950"
+                  ? "border-2 border-[#101010] bg-[#101010] text-[#20C77A] shadow-[2px_2px_0px_#20C77A]"
                   : isDone
-                  ? "text-neutral-800 hover:bg-neutral-100"
-                  : "text-neutral-400 hover:text-neutral-700"
+                  ? "text-[#101010] hover:bg-[#FAF9F5]"
+                  : "text-[#777777] hover:text-[#101010]"
               }`}
             >
               <div className="flex items-center gap-2.5">
                 {isDone ? (
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#54e38e] text-black">
-                    <Check size={12} strokeWidth={3} />
-                  </div>
-                ) : isInterrupted ? (
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-400 text-black">
-                    <AlertTriangle size={12} strokeWidth={3} />
-                  </div>
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#20C77A] text-[10px] font-black text-[#101010]">
+                    ✓
+                  </span>
+                ) : isBlocked ? (
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#F2A900] text-[10px] font-black text-[#101010]">
+                    !
+                  </span>
                 ) : isCurrent ? (
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#54e38e] text-black">
-                    <Disc3 size={14} className="animate-spin" />
-                  </div>
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#20C77A] text-[10px] font-black text-[#101010]">
+                    ●
+                  </span>
                 ) : (
-                  <div className="flex h-5 w-5 items-center justify-center text-neutral-300">
-                    <Circle size={10} />
-                  </div>
+                  <span className="flex h-5 w-5 items-center justify-center text-neutral-400 text-xs">
+                    ○
+                  </span>
                 )}
+
                 <div>
-                  <span className="block font-bold">{step.title}</span>
-                  <span className="mono text-[10px] text-neutral-500">
-                    Step {idx + 1} of {steps.length}
+                  <span className="block font-black">{item.label}</span>
+                  <span className="mono text-[10px] text-neutral-400">
+                    {item.fullTitle}
                   </span>
                 </div>
               </div>
 
-              {isCurrent && <ArrowRight size={14} className="text-[#54e38e]" />}
+              {isCurrent && <ArrowRight size={13} strokeWidth={2.5} />}
             </button>
           );
         })}
       </nav>
 
-      {/* Reroute Core Principle Footer */}
-      <div className="mt-6 border-2 border-dashed border-neutral-300 bg-neutral-50 p-3 text-[11px] text-neutral-600">
-        <p className="mono font-bold text-neutral-800">REROUTE PRINCIPLE</p>
-        <p className="mt-1 leading-relaxed">
-          Never tell the user &ldquo;Application incomplete&rdquo;. Explain what is missing and guide directly to the resolution.
+      {/* Reroute Philosophy Note */}
+      <div className="mt-5 rounded-md border border-neutral-300 bg-[#FAF9F5] p-3 text-[11px] text-[#555555]">
+        <p className="mono font-bold text-[#101010]">DYNAMIC REROUTE</p>
+        <p className="mt-0.5 leading-snug">
+          Issues are isolated to single fields. No progress is reset.
         </p>
       </div>
     </aside>

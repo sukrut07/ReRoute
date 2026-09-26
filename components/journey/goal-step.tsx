@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, CheckCircle2, Sparkles, MessageSquareQuote } from "lucide-react";
+import { ArrowRight, Check, Route, ShieldCheck } from "lucide-react";
 
 interface GoalStepProps {
   initialGoal: string;
@@ -9,121 +9,101 @@ interface GoalStepProps {
 }
 
 export function GoalStep({ initialGoal, onConfirmGoal }: GoalStepProps) {
-  const [goalText, setGoalText] = useState(initialGoal);
-  const [isAnalyzed, setIsAnalyzed] = useState(true);
+  const [goalText, setGoalText] = useState(initialGoal || "I want to claim my hospital expenses.");
+  const [isIdentified, setIsIdentified] = useState(true);
 
-  const sampleGoals = [
-    "I want to claim my hospital expenses for appendicitis surgery.",
-    "Claim reimbursement for my father's 3-day viral fever admission.",
-    "File hospital bill for emergency knee ligament procedure.",
-  ];
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsIdentified(true);
+  };
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <div className="mono mb-2 inline-flex items-center gap-2 border border-black bg-[#54e38e] px-2.5 py-1 text-xs font-black uppercase text-black">
-          <Sparkles size={13} />
-          STEP 1 · GOAL-FIRST INTAKE
-        </div>
-        <h2 className="text-3xl font-black tracking-tight text-[#101010]">
-          What are you trying to accomplish?
-        </h2>
-        <p className="mt-2 text-sm text-neutral-600">
-          State your situation in natural language. Reroute maps your objective to the appropriate regulated financial workflow.
-        </p>
-      </div>
-
-      {/* Goal Input Box */}
-      <div className="brutal-border brutal-shadow bg-white p-5 sm:p-6">
-        <label className="mono block text-xs font-bold uppercase text-neutral-500">
-          YOUR FINANCIAL GOAL
+      {/* Goal Entry Card */}
+      <div className="rounded-lg border-2 border-[#101010] bg-white p-6 sm:p-8 shadow-[4px_4px_0px_#101010]">
+        <label className="mono block text-xs font-black uppercase tracking-wider text-[#555555]">
+          WHAT ARE YOU TRYING TO DO?
         </label>
-        <div className="mt-2 flex flex-col gap-3">
+
+        <form onSubmit={handleSubmit} className="mt-3">
           <textarea
             value={goalText}
             onChange={(e) => setGoalText(e.target.value)}
             rows={3}
-            className="w-full border-2 border-black bg-[#fffef8] p-3 text-base font-bold text-neutral-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#54e38e]"
-            placeholder="e.g. I had a hospital stay and need to claim my bills..."
+            placeholder="I want to claim my hospital expenses."
+            className="w-full rounded-md border-2 border-[#101010] bg-[#FAF9F5] p-4 text-base font-bold text-[#101010] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#20C77A]"
           />
 
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-wrap items-center gap-1.5 text-xs text-neutral-500">
-              <span className="mono font-bold">Try examples:</span>
-              {sampleGoals.map((sample, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => {
-                    setGoalText(sample);
-                    setIsAnalyzed(true);
-                  }}
-                  className="rounded border border-neutral-300 bg-neutral-100 px-2 py-1 text-[11px] font-semibold text-neutral-800 hover:border-black hover:bg-neutral-200"
-                >
-                  Example {i + 1}
-                </button>
-              ))}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2 mono text-xs text-[#555555]">
+              <span>Quick tests:</span>
+              <button
+                type="button"
+                onClick={() => setGoalText("I want to claim my hospital expenses for surgery.")}
+                className="rounded border border-neutral-300 bg-neutral-100 px-2 py-0.5 hover:border-black"
+              >
+                Hospital Expenses
+              </button>
+              <button
+                type="button"
+                onClick={() => setGoalText("I need to claim cashless reimbursement for my clinic stay.")}
+                className="rounded border border-neutral-300 bg-neutral-100 px-2 py-0.5 hover:border-black"
+              >
+                Inpatient Stay
+              </button>
             </div>
 
             <button
-              type="button"
-              onClick={() => setIsAnalyzed(true)}
-              className="mono border border-black bg-neutral-100 px-3 py-1.5 text-xs font-bold hover:bg-neutral-200"
+              type="submit"
+              className="brutal-btn inline-flex items-center gap-2 bg-[#20C77A] px-5 py-2.5 text-xs font-black text-[#101010] hover:bg-[#1bb36d]"
             >
-              Analyze Intent
+              <span>IDENTIFY JOURNEY</span>
+              <ArrowRight size={14} />
             </button>
           </div>
-        </div>
+        </form>
       </div>
 
-      {/* Detected Journey Preview */}
-      {isAnalyzed && (
-        <div className="brutal-border bg-[#e7f9ee] p-6">
-          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-emerald-900">
-            <CheckCircle2 size={16} className="text-emerald-700" />
-            <span>WE UNDERSTAND YOUR GOAL</span>
-          </div>
-
-          <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2 border-b-2 border-black/10 pb-4">
+      {/* Identified Journey Details */}
+      {isIdentified && (
+        <div className="rounded-lg border-2 border-[#101010] bg-[#FAF9F5] p-6 shadow-[4px_4px_0px_#101010]">
+          <div className="flex items-center justify-between border-b border-neutral-300 pb-3">
             <div>
-              <span className="mono text-xs font-bold text-neutral-500">JOURNEY IDENTIFIED</span>
-              <h3 className="text-2xl font-black text-[#101010]">Health Insurance Claim</h3>
+              <span className="mono text-[10px] font-black uppercase text-[#555555]">
+                JOURNEY IDENTIFIED
+              </span>
+              <h3 className="text-xl font-black text-[#101010]">Health Insurance Claim</h3>
             </div>
-            <div className="border border-black bg-white px-2.5 py-1 text-xs font-black">
-              ORCHESTRATOR CONFIDENCE: 99%
-            </div>
+            <span className="mono rounded border border-[#101010] bg-[#20C77A] px-2.5 py-1 text-xs font-black text-[#101010]">
+              CONFIDENCE 99%
+            </span>
           </div>
 
-          <div className="mt-4">
-            <p className="text-xs font-black uppercase text-neutral-600">REROUTE WILL HELP YOU:</p>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2 text-xs font-bold text-neutral-800">
-              <div className="flex items-center gap-2 border border-black/20 bg-white p-2.5">
-                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#54e38e] text-[10px] text-black">✓</span>
-                <span>Verify your policy schedule & coverage limits</span>
-              </div>
-              <div className="flex items-center gap-2 border border-black/20 bg-white p-2.5">
-                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#54e38e] text-[10px] text-black">✓</span>
-                <span>Collect & extract required medical evidence</span>
-              </div>
-              <div className="flex items-center gap-2 border border-black/20 bg-white p-2.5">
-                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#54e38e] text-[10px] text-black">✓</span>
-                <span>Reconcile documents & catch discrepancies</span>
-              </div>
-              <div className="flex items-center gap-2 border border-black/20 bg-white p-2.5">
-                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#54e38e] text-[10px] text-black">✓</span>
-                <span>Reroute cleanly if conflicting information arises</span>
-              </div>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mono text-xs">
+            <div className="rounded border border-[#101010] bg-white p-3">
+              <span className="text-[10px] text-[#777777] uppercase">JOURNEY TYPE</span>
+              <p className="font-bold text-[#101010] mt-0.5">Medical Reimbursement</p>
+            </div>
+            <div className="rounded border border-[#101010] bg-white p-3">
+              <span className="text-[10px] text-[#777777] uppercase">REQUIRED STAGES</span>
+              <p className="font-bold text-[#101010] mt-0.5">6 Progressive Steps</p>
+            </div>
+            <div className="rounded border border-[#101010] bg-white p-3">
+              <span className="text-[10px] text-[#777777] uppercase">INITIAL STATE</span>
+              <p className="font-bold text-[#101010] mt-0.5">Policy Attached</p>
+            </div>
+            <div className="rounded border border-[#101010] bg-white p-3">
+              <span className="text-[10px] text-[#777777] uppercase">CUSTOMER CONTEXT</span>
+              <p className="font-bold text-[#101010] mt-0.5">Sukrut Dusane · POL-1024</p>
             </div>
           </div>
 
           <div className="mt-6 flex justify-end">
             <button
               onClick={() => onConfirmGoal(goalText)}
-              className="brutal-btn flex items-center gap-2 bg-[#54e38e] px-6 py-3 text-sm font-black text-black hover:bg-[#40d27c]"
+              className="brutal-btn inline-flex items-center gap-2 bg-[#20C77A] px-6 py-3 text-xs font-black text-[#101010] hover:bg-[#1bb36d]"
             >
-              <span>BEGIN JOURNEY</span>
-              <ArrowRight size={16} />
+              <span>START JOURNEY →</span>
             </button>
           </div>
         </div>

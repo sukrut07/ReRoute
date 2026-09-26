@@ -5,7 +5,7 @@ import { DocumentEvidence } from "@/lib/types";
 import {
   UploadCloud,
   FileText,
-  CheckCircle2,
+  Check,
   Disc3,
   ArrowRight,
   ShieldCheck,
@@ -27,155 +27,172 @@ export function UploadStep({
   isMissingDocScenario = false,
 }: UploadStepProps) {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [processingStage, setProcessingStage] = useState<string | null>(null);
-  const [processedDocs, setProcessedDocs] = useState<string[]>(
-    documents.map((d) => d.id)
-  );
+  const [currentStageIndex, setCurrentStageIndex] = useState(0);
 
-  const simulateProcessing = () => {
+  const stages = ["UPLOADING", "READING", "EXTRACTING", "VERIFYING"];
+
+  const handleStartProcessing = () => {
     setIsProcessing(true);
-    setProcessingStage("Uploading synthetic evidence...");
+    setCurrentStageIndex(0);
 
-    setTimeout(() => {
-      setProcessingStage("Executing OCR layout analysis...");
-    }, 700);
-
-    setTimeout(() => {
-      setProcessingStage("Extracting medical, identity & invoice fields...");
-    }, 1400);
-
-    setTimeout(() => {
-      setProcessingStage("Reconciling evidence across documents...");
-    }, 2100);
-
-    setTimeout(() => {
-      setIsProcessing(false);
-      setProcessingStage(null);
-      onProcessComplete();
-    }, 2800);
+    const interval = setInterval(() => {
+      setCurrentStageIndex((prev) => {
+        if (prev < stages.length - 1) {
+          return prev + 1;
+        } else {
+          clearInterval(interval);
+          setTimeout(() => {
+            setIsProcessing(false);
+            onProcessComplete();
+          }, 400);
+          return prev;
+        }
+      });
+    }, 600);
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <div className="mono mb-2 inline-flex items-center gap-2 border border-black bg-[#54e38e] px-2.5 py-1 text-xs font-black uppercase text-black">
-          <UploadCloud size={13} />
-          STEP 3 · EVIDENCE COLLECTION
+        <div className="mono mb-2 inline-flex items-center gap-2 rounded border border-[#101010] bg-[#20C77A] px-2.5 py-1 text-xs font-black uppercase text-[#101010]">
+          <UploadCloud size={13} strokeWidth={2.5} />
+          STEP 3 · DOCUMENT CENTER
         </div>
         <h2 className="text-3xl font-black tracking-tight text-[#101010]">
-          Upload Required Documents
+          Evidence & Document Center
         </h2>
-        <p className="mt-2 text-sm text-neutral-600">
-          Submit your hospital invoice, clinical discharge summary, and identity proof.
+        <p className="mt-1 text-sm text-[#555555]">
+          Manage and upload all required documents for your claim.
         </p>
       </div>
 
-      {/* Upload Zone */}
-      <div className="brutal-border brutal-shadow border-dashed bg-[#fffef8] p-8 text-center sm:p-10">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-black bg-[#54e38e]">
-          <UploadCloud size={28} className="text-black" />
+      {/* Required Evidence Checklist Summary */}
+      <div className="rounded-lg border-2 border-[#101010] bg-white p-5 shadow-[3px_3px_0px_#101010]">
+        <span className="mono text-xs font-black uppercase text-[#555555]">
+          REQUIRED EVIDENCE
+        </span>
+        <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4 mono text-xs font-bold">
+          <div className="flex items-center gap-2 rounded border border-neutral-300 bg-[#FAF9F5] p-2 text-[#101010]">
+            <span className="text-[#20C77A] font-black">✓</span>
+            <span>Policy</span>
+          </div>
+          <div className="flex items-center gap-2 rounded border border-neutral-300 bg-[#FAF9F5] p-2 text-[#101010]">
+            <span className="text-[#20C77A] font-black">✓</span>
+            <span>Identity</span>
+          </div>
+          <div className="flex items-center gap-2 rounded border border-neutral-300 bg-[#FAF9F5] p-2 text-[#101010]">
+            <span className="text-[#20C77A] font-black">✓</span>
+            <span>Hospital Bill</span>
+          </div>
+          <div className="flex items-center gap-2 rounded border border-neutral-300 bg-[#FAF9F5] p-2 text-[#101010]">
+            <span className={isMissingDocScenario ? "text-[#E85C65] font-black" : "text-[#20C77A] font-black"}>
+              {isMissingDocScenario ? "○" : "✓"}
+            </span>
+            <span>Discharge Summary</span>
+          </div>
         </div>
-        <h3 className="mt-4 text-lg font-black text-[#101010]">
-          Drag & drop your hospital files here
-        </h3>
-        <p className="mt-1 text-xs text-neutral-600">
-          Accepts PDF, JPG, PNG up to 25MB · Pre-populated with synthetic sandbox artifacts
+      </div>
+
+      {/* Upload Dropzone */}
+      <div className="rounded-lg border-2 border-dashed border-[#101010] bg-[#FAF9F5] p-6 text-center">
+        <UploadCloud size={32} className="mx-auto text-[#101010]" />
+        <h3 className="mt-2 text-base font-black text-[#101010]">UPLOAD DOCUMENT</h3>
+        <p className="mt-1 text-xs text-[#555555]">
+          Drag and drop PDF, JPG, PNG or use synthetic preloaded demo files.
         </p>
 
-        {/* Processing Indicator */}
+        {/* Processing Sequence Indicator (Section 14) */}
         {isProcessing && (
-          <div className="mx-auto mt-6 max-w-md border-2 border-black bg-white p-4">
-            <div className="flex items-center justify-center gap-2 text-xs font-bold text-neutral-900">
-              <Disc3 size={16} className="animate-spin text-emerald-600" />
-              <span>{processingStage}</span>
+          <div className="mx-auto mt-5 max-w-lg rounded border border-[#101010] bg-white p-3.5">
+            <div className="flex items-center justify-center gap-2 mono text-xs font-black">
+              {stages.map((stage, idx) => {
+                const isActive = idx === currentStageIndex;
+                const isPassed = idx < currentStageIndex;
+                return (
+                  <div key={stage} className="flex items-center gap-2">
+                    <span
+                      className={`px-2 py-0.5 rounded ${
+                        isActive
+                          ? "bg-[#20C77A] text-black font-black"
+                          : isPassed
+                          ? "bg-neutral-200 text-neutral-800"
+                          : "text-neutral-400"
+                      }`}
+                    >
+                      {stage}
+                    </span>
+                    {idx < stages.length - 1 && <span className="text-neutral-400">↓</span>}
+                  </div>
+                );
+              })}
             </div>
-            <div className="mt-3 h-2.5 w-full border border-black bg-neutral-100">
-              <div className="h-full animate-pulse bg-[#54e38e]" style={{ width: "85%" }} />
+            <div className="mt-3 h-1.5 w-full rounded bg-neutral-100 overflow-hidden">
+              <div
+                className="h-full bg-[#20C77A] transition-all duration-300"
+                style={{ width: `${((currentStageIndex + 1) / stages.length) * 100}%` }}
+              />
             </div>
           </div>
         )}
       </div>
 
-      {/* Synthetic Demo Documents List */}
-      <div>
-        <div className="flex items-center justify-between">
-          <span className="mono text-xs font-bold uppercase text-neutral-500">
-            LOADED DEMO DOCUMENTS ({documents.length})
-          </span>
-          <span className="mono text-[11px] font-bold text-emerald-700">
-            {isMissingDocScenario ? "1 Document Missing for Recovery Demo" : "All 4 Documents Attached"}
-          </span>
-        </div>
-
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          {documents.map((doc) => {
-            const isMissing = doc.status === "MISSING";
-            return (
-              <div
-                key={doc.id}
-                className={`border-2 p-4 transition-all ${
-                  isMissing
-                    ? "border-dashed border-amber-600 bg-amber-50"
-                    : "border-black bg-white shadow-[3px_3px_0px_#101010]"
-                }`}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-2.5">
-                    <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center border-2 border-black ${
-                        isMissing ? "bg-amber-200" : "bg-[#e7f9ee]"
-                      }`}
-                    >
-                      <FileText size={16} />
-                    </div>
-                    <div>
-                      <span className="mono text-[10px] font-bold uppercase text-neutral-500">
-                        {doc.category}
-                      </span>
-                      <h4 className="text-sm font-black text-[#101010]">{doc.fileName}</h4>
-                      <p className="mono text-[11px] text-neutral-500">
-                        {doc.size} · OCR Clarity: {Math.round(doc.ocrConfidence * 100)}%
-                      </p>
-                    </div>
-                  </div>
-
+      {/* Uploaded Document Cards */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        {documents.map((doc) => {
+          const isMissing = doc.status === "MISSING";
+          return (
+            <div
+              key={doc.id}
+              className={`rounded-lg border-2 p-4 transition-all ${
+                isMissing
+                  ? "border-dashed border-[#F2A900] bg-[#FFF8E7]"
+                  : "border-[#101010] bg-white shadow-[3px_3px_0px_#101010]"
+              }`}
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="text-sm font-black text-[#101010]">{doc.category}</h4>
+                  <p className="mono text-xs text-[#555555]">{doc.fileName}</p>
                   {!isMissing && (
-                    <button
-                      onClick={() => onViewDoc(doc)}
-                      className="mono flex items-center gap-1 border border-black bg-neutral-100 px-2 py-1 text-[10px] font-bold hover:bg-neutral-200"
-                    >
-                      <Eye size={11} />
-                      <span>Inspect</span>
-                    </button>
+                    <span className="mono mt-1 inline-block text-[11px] font-bold text-[#20C77A]">
+                      PROCESSED {Math.round(doc.ocrConfidence * 100)}% CONFIDENCE
+                    </span>
+                  )}
+                  {isMissing && (
+                    <span className="mono mt-1 inline-block text-[11px] font-bold text-[#D97706]">
+                      ○ PENDING UPLOAD
+                    </span>
                   )}
                 </div>
 
-                {isMissing && (
-                  <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-amber-800">
-                    <AlertCircle size={13} />
-                    <span>Missing: Discharge summary required to proceed</span>
-                  </div>
+                {!isMissing && (
+                  <button
+                    onClick={() => onViewDoc(doc)}
+                    className="brutal-btn rounded border border-[#101010] bg-[#FAF9F5] px-2.5 py-1 text-[11px] font-black text-[#101010] hover:bg-white"
+                  >
+                    VIEW EVIDENCE
+                  </button>
                 )}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Bottom Action */}
-      <div className="flex items-center justify-between border-t-2 border-black pt-4">
-        <div className="mono flex items-center gap-2 text-xs text-neutral-600">
-          <ShieldCheck size={16} className="text-emerald-600" />
-          <span>Synthetic data only · Zero real PII collected</span>
+      {/* Footer Actions */}
+      <div className="flex items-center justify-between border-t-2 border-[#101010] pt-4">
+        <div className="flex items-center gap-1.5 mono text-xs text-[#555555]">
+          <ShieldCheck size={15} className="text-[#20C77A]" />
+          <span>Synthetic evidence sandbox</span>
         </div>
+
         <button
           disabled={isProcessing}
-          onClick={simulateProcessing}
-          className="brutal-btn flex items-center gap-2 bg-[#54e38e] px-6 py-3 text-xs font-black text-black hover:bg-[#40d27c] disabled:opacity-50"
+          onClick={handleStartProcessing}
+          className="brutal-btn inline-flex items-center gap-2 bg-[#20C77A] px-5 py-2.5 text-xs font-black text-[#101010] hover:bg-[#1bb36d] disabled:opacity-50"
         >
-          <span>{isProcessing ? "PROCESSING..." : "EXTRACT & VERIFY EVIDENCE"}</span>
-          <ArrowRight size={14} />
+          <span>{isProcessing ? "PROCESSING..." : "EXTRACT DATA →"}</span>
         </button>
       </div>
     </div>

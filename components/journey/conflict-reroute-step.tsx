@@ -8,10 +8,10 @@ import {
   CheckCircle2,
   AlertTriangle,
   HelpCircle,
-  FileText,
-  UserCheck,
-  RotateCcw,
+  ShieldAlert,
   Sparkles,
+  Check,
+  UserCheck,
 } from "lucide-react";
 
 interface ConflictRerouteStepProps {
@@ -27,204 +27,206 @@ export function ConflictRerouteStep({
   onOpenExplain,
   onEscalateToHuman,
 }: ConflictRerouteStepProps) {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [isResolving, setIsResolving] = useState(false);
-  const [resolvedStatus, setResolvedStatus] = useState<string | null>(null);
+  const [selectedAction, setSelectedAction] = useState<string | null>(null);
+  const [isRerouting, setIsRerouting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [chosenValue, setChosenValue] = useState<string>("14/07/1998");
 
-  const handleConfirm = (val: string) => {
-    setSelectedOption(val);
-    setIsResolving(true);
-    setResolvedStatus("Applying confirmation to claim record...");
-
-    setTimeout(() => {
-      setResolvedStatus("Re-running Verification Engine with corrected Date of Birth...");
-    }, 800);
+  const handleReroute = (value: string, label: string) => {
+    setSelectedAction(label);
+    setChosenValue(value);
+    setIsRerouting(true);
 
     setTimeout(() => {
-      setResolvedStatus("Evidence reconciled! Resuming journey from step 6...");
-    }, 1600);
-
-    setTimeout(() => {
-      setIsResolving(false);
-      onResolve(val);
-    }, 2200);
+      setIsRerouting(false);
+      setIsSuccess(true);
+    }, 1200);
   };
+
+  const handleFinalContinue = () => {
+    onResolve(chosenValue);
+  };
+
+  if (isSuccess) {
+    return (
+      <div className="space-y-6">
+        <div className="rounded-lg border-2 border-[#20C77A] bg-white p-6 sm:p-8 shadow-[5px_5px_0px_#20C77A]">
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#20C77A]">
+            <CheckCircle2 size={18} strokeWidth={2.5} />
+            <span>REROUTED</span>
+          </div>
+
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-[#101010]">
+            The issue was isolated to one piece of information.
+          </h2>
+
+          <div className="mt-3 max-w-xl text-sm leading-relaxed text-[#555555]">
+            <p>
+              No restart required. Journey restored.
+            </p>
+            <p className="mt-1 font-bold text-[#101010]">
+              NEXT: Re-verify information
+            </p>
+          </div>
+
+          <div className="mt-6 rounded-md border border-[#101010] bg-[#FAF9F5] p-4 text-xs font-bold text-[#101010]">
+            <div className="flex items-center justify-between">
+              <span className="mono text-[#555555]">CONFIRMED VALUE</span>
+              <span className="mono font-black text-black bg-[#20C77A] px-2 py-0.5 rounded">
+                {chosenValue}
+              </span>
+            </div>
+            <div className="mt-2 flex items-center justify-between border-t border-neutral-200 pt-2">
+              <span className="mono text-[#555555]">PRESERVED CONTEXT</span>
+              <span className="mono text-[#101010]">Policy & Hospital Documents Intact</span>
+            </div>
+          </div>
+
+          <div className="mt-8 flex justify-end">
+            <button
+              onClick={handleFinalContinue}
+              className="brutal-btn inline-flex items-center gap-2 bg-[#20C77A] px-6 py-3 text-sm font-black text-[#101010] hover:bg-[#1bb36d]"
+            >
+              <span>CONTINUE JOURNEY</span>
+              <ArrowRight size={16} strokeWidth={2.5} />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
-      {/* Visual Route Status Architecture Banner */}
-      <div className="brutal-border bg-black p-4 text-white sm:p-5">
-        <p className="mono text-[11px] font-black tracking-widest text-[#54e38e]">
-          REROUTE ENGINE ORCHESTRATION LOOP
-        </p>
-        <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-black sm:gap-3 sm:text-sm">
-          <span className="border border-red-500 bg-red-950 px-2.5 py-1 text-red-300">
-            JOURNEY INTERRUPTED
-          </span>
-          <ArrowRight size={14} className="text-[#54e38e]" />
-          <span className="border border-amber-500 bg-amber-950 px-2.5 py-1 text-amber-300">
-            ISSUE IDENTIFIED
-          </span>
-          <ArrowRight size={14} className="text-[#54e38e]" />
-          <span className="border border-[#54e38e] bg-[#54e38e] px-2.5 py-1 text-black">
-            SAFE NEXT ACTION
-          </span>
-        </div>
-      </div>
-
-      {/* Main Reroute Hero Card */}
-      <div className="brutal-border brutal-shadow bg-[#fffef8] p-6 sm:p-8">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <div className="mono mb-2 inline-flex items-center gap-1.5 border border-black bg-[#54e38e] px-2.5 py-1 text-xs font-black text-black">
-              <Route size={14} />
-              REROUTE IN ACTION
-            </div>
-            <h2 className="text-3xl font-black tracking-tight text-[#101010] sm:text-4xl">
-              We&apos;ve rerouted your journey.
-            </h2>
-            <p className="mt-2 max-w-2xl text-base font-semibold leading-relaxed text-neutral-700">
-              Instead of restarting your claim or making you call a helpline, Reroute identified exactly what needs clarification so you keep all your progress.
-            </p>
+      {/* Signature Reroute Banner */}
+      <div className="rounded-lg border-2 border-[#101010] bg-white p-6 sm:p-8 shadow-[5px_5px_0px_#101010]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-[#101010] pb-4">
+          <div className="flex items-center gap-2">
+            <span className="mono rounded border border-[#101010] bg-[#F2A900] px-2 py-0.5 text-xs font-black uppercase text-[#101010]">
+              REROUTE REQUIRED
+            </span>
+            <span className="mono text-xs font-bold text-[#555555]">
+              STEP 4 OF 6 · IN-PLACE RECOVERY
+            </span>
           </div>
 
           <button
             onClick={() => onOpenExplain("dob_conflict")}
-            className="mono brutal-btn flex items-center gap-1.5 bg-white px-3.5 py-2 text-xs font-bold hover:bg-neutral-100"
+            className="mono flex items-center gap-1.5 rounded border border-[#101010] bg-[#FAF9F5] px-2.5 py-1 text-xs font-bold text-[#101010] hover:bg-neutral-100"
           >
-            <HelpCircle size={14} />
-            <span>Why did Reroute flag this?</span>
+            <HelpCircle size={13} />
+            <span>WHY?</span>
           </button>
         </div>
 
-        {/* Diagnostic Metadata Grid */}
-        <div className="mt-6 grid gap-3 sm:grid-cols-4">
-          <div className="border-2 border-black bg-white p-3">
-            <span className="mono text-[10px] uppercase text-neutral-500">ISSUE IDENTIFIED</span>
-            <p className="mt-1 text-sm font-black text-[#101010]">Date of Birth Mismatch</p>
+        {/* Status / Issue / Confidence grid */}
+        <div className="mt-6 grid gap-3 sm:grid-cols-4 mono text-xs">
+          <div className="rounded border border-[#101010] bg-[#FAF9F5] p-3">
+            <span className="text-[10px] uppercase text-[#777777]">CURRENT STATE</span>
+            <p className="mt-1 font-black text-[#101010]">Verification blocked</p>
           </div>
-          <div className="border-2 border-black bg-white p-3">
-            <span className="mono text-[10px] uppercase text-neutral-500">AFFECTED EVIDENCE</span>
-            <p className="mt-1 text-sm font-black text-[#101010]">2 Source Documents</p>
+          <div className="rounded border border-[#101010] bg-[#FAF9F5] p-3">
+            <span className="text-[10px] uppercase text-[#777777]">ISSUE</span>
+            <p className="mt-1 font-black text-[#E85C65]">DOB mismatch</p>
           </div>
-          <div className="border-2 border-black bg-white p-3">
-            <span className="mono text-[10px] uppercase text-neutral-500">ORCHESTRATOR CONFIDENCE</span>
-            <p className="mt-1 text-sm font-black text-emerald-700">92% High Precision</p>
+          <div className="rounded border border-[#101010] bg-[#FAF9F5] p-3">
+            <span className="text-[10px] uppercase text-[#777777]">EVIDENCE</span>
+            <p className="mt-1 font-black text-[#101010]">2 sources</p>
           </div>
-          <div className="border-2 border-black bg-white p-3">
-            <span className="mono text-[10px] uppercase text-neutral-500">NEXT SAFE ACTION</span>
-            <p className="mt-1 text-sm font-black text-[#101010]">Confirm Legal DOB</p>
+          <div className="rounded border border-[#101010] bg-[#FAF9F5] p-3">
+            <span className="text-[10px] uppercase text-[#777777]">CONFIDENCE</span>
+            <p className="mt-1 font-black text-[#20C77A]">92%</p>
           </div>
         </div>
 
-        {/* Side-by-Side Conflicting Records */}
-        <div className="mt-6 border-2 border-black bg-neutral-50 p-4 sm:p-5">
-          <span className="mono text-xs font-black uppercase text-neutral-500">
-            COMPARE THE DISCREPANCY
+        {/* Next Safe Action Callout */}
+        <div className="mt-4 rounded-md border-2 border-[#101010] bg-[#FAF9F5] p-3.5">
+          <span className="mono text-[10px] font-black uppercase tracking-wider text-[#555555]">
+            NEXT SAFE ACTION
           </span>
-
-          <div className="mt-3 grid gap-4 sm:grid-cols-2">
-            {/* Source A */}
-            <div className="border-2 border-black bg-white p-4 shadow-[3px_3px_0px_#101010]">
-              <div className="flex items-center justify-between border-b pb-2">
-                <span className="mono text-[11px] font-bold text-neutral-600">
-                  {conflict.sourceA.docName}
-                </span>
-                <span className="mono border border-emerald-600 bg-[#e7f9ee] px-1.5 py-0.2 text-[10px] font-bold text-emerald-800">
-                  Policy Schedule
-                </span>
-              </div>
-              <p className="mono mt-3 text-2xl font-black text-[#101010]">
-                {conflict.sourceA.value}
-              </p>
-              <p className="mt-2 text-xs italic text-neutral-600">
-                &ldquo;{conflict.sourceA.excerpt}&rdquo;
-              </p>
-            </div>
-
-            {/* Source B */}
-            <div className="border-2 border-amber-600 bg-amber-50 p-4 shadow-[3px_3px_0px_#d97706]">
-              <div className="flex items-center justify-between border-b border-amber-300 pb-2">
-                <span className="mono text-[11px] font-bold text-amber-900">
-                  {conflict.sourceB.docName}
-                </span>
-                <span className="mono border border-amber-600 bg-amber-200 px-1.5 py-0.2 text-[10px] font-bold text-amber-950">
-                  Hospital Invoice
-                </span>
-              </div>
-              <p className="mono mt-3 text-2xl font-black text-red-600">
-                {conflict.sourceB.value}
-              </p>
-              <p className="mt-2 text-xs italic text-neutral-600">
-                &ldquo;{conflict.sourceB.excerpt}&rdquo;
-              </p>
-            </div>
-          </div>
+          <p className="mt-0.5 text-sm font-black text-[#101010]">
+            Confirm the correct information
+          </p>
         </div>
 
-        {/* Resolution Options */}
-        <div className="mt-6">
-          <h4 className="text-sm font-black uppercase tracking-wider text-neutral-700">
-            SELECT THE ACCURATE VALUE TO PROCEED:
-          </h4>
-          <p className="mt-1 text-xs text-neutral-500">
-            Reroute does not guess or assume. Your selection will update the verification state instantly.
+        {/* Section 17: Information Conflict Detail */}
+        <div className="mt-6 rounded-lg border-2 border-[#F2A900] bg-[#FFF8E7] p-5">
+          <div className="flex items-center gap-2">
+            <AlertTriangle size={18} className="text-[#D97706]" />
+            <h3 className="text-sm font-black uppercase tracking-wider text-[#B45309]">
+              INFORMATION CONFLICT: DATE OF BIRTH
+            </h3>
+          </div>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div className="rounded border-2 border-[#101010] bg-white p-4">
+              <span className="mono text-[10px] font-bold uppercase text-[#555555]">
+                POLICY VALUE
+              </span>
+              <p className="mono mt-1 text-2xl font-black text-[#101010]">14/07/1998</p>
+              <p className="mt-1 text-xs text-[#777777]">Source: Health Policy Schedule POL-2026-1024</p>
+            </div>
+
+            <div className="rounded border-2 border-[#E85C65] bg-white p-4">
+              <span className="mono text-[10px] font-bold uppercase text-[#E85C65]">
+                HOSPITAL DOCUMENT
+              </span>
+              <p className="mono mt-1 text-2xl font-black text-[#E85C65]">17/07/1998</p>
+              <p className="mt-1 text-xs text-[#777777]">Source: CityCare Hospital Invoice desk</p>
+            </div>
+          </div>
+
+          <p className="mt-4 text-xs font-semibold text-[#555555]">
+            We found a difference between two documents. Do not automatically determine the correct value.
           </p>
 
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {/* Action Buttons */}
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
             <button
-              disabled={isResolving}
-              onClick={() => handleConfirm(conflict.sourceA.value)}
-              className="brutal-border brutal-shadow flex flex-col items-start bg-[#e7f9ee] p-4 text-left transition-all hover:-translate-y-0.5 hover:bg-[#d5f7e2]"
+              disabled={isRerouting}
+              onClick={() => handleReroute("14/07/1998", "POLICY VALUE")}
+              className="brutal-btn flex flex-col items-center justify-center bg-[#20C77A] p-3 text-center text-xs font-black text-[#101010] hover:bg-[#1bb36d] disabled:opacity-50"
             >
-              <div className="flex w-full items-center justify-between">
-                <span className="mono text-xs font-black uppercase text-emerald-900">
-                  OPTION 1 (RECOMMENDED)
-                </span>
-                <span className="border border-black bg-black px-1.5 py-0.5 text-[10px] font-black text-[#54e38e]">
-                  MATCHES AADHAAR
-                </span>
-              </div>
-              <span className="mt-2 text-lg font-black text-[#101010]">
-                Confirm {conflict.sourceA.value}
-              </span>
-              <span className="mt-1 text-xs text-neutral-600">
-                Affirms the policy schedule and government photo ID record.
-              </span>
+              <span>USE POLICY VALUE</span>
+              <span className="mono text-[10px] font-normal text-[#101010] mt-0.5">(14/07/1998)</span>
             </button>
 
             <button
-              disabled={isResolving}
-              onClick={() => handleConfirm(conflict.sourceB.value)}
-              className="brutal-border brutal-shadow flex flex-col items-start bg-white p-4 text-left transition-all hover:-translate-y-0.5 hover:bg-neutral-50"
+              disabled={isRerouting}
+              onClick={() => handleReroute("17/07/1998", "DOCUMENT VALUE")}
+              className="brutal-btn flex flex-col items-center justify-center bg-white p-3 text-center text-xs font-black text-[#101010] hover:bg-neutral-50 disabled:opacity-50"
             >
-              <span className="mono text-xs font-black uppercase text-neutral-500">OPTION 2</span>
-              <span className="mt-2 text-lg font-black text-[#101010]">
-                Confirm {conflict.sourceB.value}
-              </span>
-              <span className="mt-1 text-xs text-neutral-600">
-                Uses the hospital billing desk record (will prompt policy update).
-              </span>
+              <span>USE DOCUMENT VALUE</span>
+              <span className="mono text-[10px] font-normal text-[#555555] mt-0.5">(17/07/1998)</span>
             </button>
-          </div>
 
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t-2 border-black pt-4">
             <button
-              disabled={isResolving}
+              disabled={isRerouting}
               onClick={onEscalateToHuman}
-              className="mono border border-black bg-white px-3 py-1.5 text-xs font-bold text-neutral-700 hover:bg-neutral-100"
+              className="brutal-btn flex flex-col items-center justify-center bg-white p-3 text-center text-xs font-bold text-[#101010] hover:bg-neutral-50 disabled:opacity-50"
             >
-              Neither is correct · Request Human Review Officer
+              <span>REQUEST HUMAN REVIEW</span>
+              <span className="mono text-[10px] font-normal text-[#555555] mt-0.5">(Adjudication queue)</span>
             </button>
-
-            {isResolving && (
-              <div className="mono flex items-center gap-2 text-xs font-black text-emerald-800">
-                <Sparkles size={14} className="animate-spin text-emerald-600" />
-                <span>{resolvedStatus}</span>
-              </div>
-            )}
           </div>
         </div>
+
+        {/* Reassurance Banner */}
+        <div className="mt-6 rounded border border-neutral-300 bg-[#FAF9F5] p-3 text-center">
+          <p className="mono text-xs font-bold text-[#101010]">
+            YOUR JOURNEY WILL NOT RESTART.
+          </p>
+          <p className="text-xs text-[#555555] mt-0.5">
+            You will continue from the current verification step with preserved evidence.
+          </p>
+        </div>
+
+        {isRerouting && (
+          <div className="mt-4 flex items-center justify-center gap-2 mono text-xs font-bold text-[#20C77A]">
+            <Sparkles size={16} className="animate-spin" />
+            <span>REROUTING IN PROGRESS · RESTORING CONTEXT...</span>
+          </div>
+        )}
       </div>
     </div>
   );

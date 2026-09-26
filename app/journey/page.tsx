@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Navbar } from "@/components/navbar";
 import { DemoBanner } from "@/components/demo-banner";
 import { JourneySidebar } from "@/components/journey/journey-sidebar";
+import { JourneyContextPanel } from "@/components/journey/journey-context-panel";
 import { GoalStep } from "@/components/journey/goal-step";
 import { PolicyStep } from "@/components/journey/policy-step";
 import { UploadStep } from "@/components/journey/upload-step";
@@ -31,7 +32,7 @@ import {
   JourneyStep,
   StepId,
 } from "@/lib/types";
-import { Sparkles, RotateCcw, AlertTriangle, ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 
 export default function JourneyPage() {
   const [currentScenario, setCurrentScenario] = useState<DemoScenarioId>("dob_conflict");
@@ -43,34 +44,18 @@ export default function JourneyPage() {
   const [explainContext, setExplainContext] = useState<ExplainabilityContext | null>(null);
   const [inspectedDoc, setInspectedDoc] = useState<DocumentEvidence | null>(null);
   const [inspectedField, setInspectedField] = useState<string | null>(null);
-  const [hasVisitedBefore, setHasVisitedBefore] = useState<boolean>(false);
+  const [hasVisitedBefore, setHasVisitedBefore] = useState<boolean>(true);
 
-  // Check Journey Memory on mount
-  useEffect(() => {
-    try {
-      const savedMemory = localStorage.getItem("reroute_journey_memory");
-      if (savedMemory) {
-        setHasVisitedBefore(true);
-      } else {
-        localStorage.setItem("reroute_journey_memory", "active");
-      }
-    } catch {
-      // ignore SSR or localStorage access
-    }
-  }, []);
-
-  // Handle Scenario switching
+  // Scenario switching
   const handleSelectScenario = (scenarioId: DemoScenarioId) => {
     setCurrentScenario(scenarioId);
 
     if (scenarioId === "dob_conflict") {
-      // Default hackathon demo: DOB conflict at step 6
       setCurrentStepId("reroute");
       setDocuments(INITIAL_DEMO_DOCUMENTS);
       setConflict({ ...INITIAL_DEMO_CONFLICT, resolved: false });
       setSteps(DEFAULT_JOURNEY_STEPS);
     } else if (scenarioId === "happy_path") {
-      // Clean path: all docs match
       setCurrentStepId("verification");
       const cleanDocs = INITIAL_DEMO_DOCUMENTS.map((doc) => {
         if (doc.category === "Hospital Bill") {
@@ -87,12 +72,12 @@ export default function JourneyPage() {
       });
       setDocuments(cleanDocs);
       setConflict({ ...INITIAL_DEMO_CONFLICT, resolved: true });
-      const updatedSteps = DEFAULT_JOURNEY_STEPS.map((s) =>
-        s.id === "reroute" ? { ...s, status: "skipped" as const } : s
+      setSteps(
+        DEFAULT_JOURNEY_STEPS.map((s) =>
+          s.id === "reroute" ? { ...s, status: "skipped" as const } : s
+        )
       );
-      setSteps(updatedSteps);
     } else if (scenarioId === "missing_evidence") {
-      // Missing discharge summary
       setCurrentStepId("evidence");
       const missingDocs = INITIAL_DEMO_DOCUMENTS.map((doc) =>
         doc.category === "Discharge Summary"
@@ -101,7 +86,6 @@ export default function JourneyPage() {
       );
       setDocuments(missingDocs);
     } else if (scenarioId === "high_risk") {
-      // High ticket amount + low OCR -> High Risk escalation
       setCurrentStepId("risk");
       const highAmountDocs = INITIAL_DEMO_DOCUMENTS.map((doc) =>
         doc.category === "Hospital Bill"
@@ -119,7 +103,7 @@ export default function JourneyPage() {
     }
   };
 
-  // Conflict resolved handler
+  // Conflict resolution handler
   const handleResolveConflict = (confirmedValue: string) => {
     setConflict((prev) => ({
       ...prev,
@@ -128,7 +112,6 @@ export default function JourneyPage() {
       resolutionTimestamp: new Date().toISOString(),
     }));
 
-    // Update documents
     setDocuments((prev) =>
       prev.map((doc) =>
         doc.category === "Hospital Bill"
@@ -144,7 +127,6 @@ export default function JourneyPage() {
       )
     );
 
-    // Update steps
     setSteps((prev) =>
       prev.map((step) => {
         if (step.id === "verification") return { ...step, status: "completed" as const };
@@ -154,7 +136,6 @@ export default function JourneyPage() {
       })
     );
 
-    // Transition to Risk Step
     setCurrentStepId("risk");
   };
 
@@ -201,86 +182,136 @@ export default function JourneyPage() {
     }
   };
 
-  // Compute risk assessment dynamically
   const riskAssessment = RiskEngine.assessRisk({
     evidence: documents,
     conflicts: [conflict],
     claimAmount: currentScenario === "high_risk" ? 185000 : 84500,
   });
 
-  // Calculate overall progress percentage
-  const calculateProgress = () => {
+  const getStepProgressNumber = () => {
     switch (currentStepId) {
       case "goal":
-        return 15;
+        return 1;
       case "policy":
-        return 30;
+        return 2;
       case "evidence":
-        return 45;
+        return 3;
       case "extraction":
-        return 60;
+        return 4;
       case "verification":
-        return 72;
       case "reroute":
-        return 72;
+        return 4;
       case "risk":
-        return 88;
+        return 5;
       case "completion":
-        return 100;
+        return 6;
       default:
-        return 72;
+        return 4;
     }
   };
 
-  const progressPercent = calculateProgress();
+  const progressPercent =
+    currentStepId === "goal"
+      ? 16
+      : currentStepId === "policy"
+      ? 33
+      : currentStepId === "evidence"
+      ? 50
+      : currentStepId === "extraction"
+      ? 66
+      : currentStepId === "verification" || currentStepId === "reroute"
+      ? 72
+      : currentStepId === "risk"
+      ? 88
+      : 100;
 
   return (
-    <div className="min-h-screen bg-[#f5f5f0] text-[#101010]">
+    <div className="min-h-screen bg-[#F5F3EE] text-[#101010]">
       <Navbar />
       <DemoBanner
         currentScenario={currentScenario}
         onSelectScenario={handleSelectScenario}
       />
 
-      {/* Journey Memory Banner (Returning User Experience) */}
+      {/* Top Header & Progress Bar (Section 11) */}
+      <div className="border-b-2 border-[#101010] bg-white px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="mono rounded border border-[#101010] bg-[#FAF9F5] px-2 py-0.5 text-xs font-black text-[#101010]">
+              CASE #R-1024
+            </span>
+            <h1 className="text-base sm:text-lg font-black text-[#101010]">
+              HEALTH INSURANCE CLAIM
+            </h1>
+            <span className="mono text-xs font-bold text-[#555555]">
+              STEP {getStepProgressNumber()} / 6
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <span className="mono text-xs font-black text-[#101010]">
+              {progressPercent}% COMPLETE
+            </span>
+            <div className="h-3 w-36 sm:w-48 rounded border-2 border-[#101010] bg-neutral-100 overflow-hidden">
+              <div
+                className={`h-full transition-all duration-300 ${
+                  currentStepId === "reroute" ? "bg-[#F2A900]" : "bg-[#20C77A]"
+                }`}
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 21: Journey Memory Resume Banner */}
       {hasVisitedBefore && currentStepId === "reroute" && (
-        <div className="border-b-2 border-black bg-[#fff0b8] px-4 py-2.5 sm:px-6">
+        <div className="border-b-2 border-[#101010] bg-[#FFF8E7] px-4 py-2.5 sm:px-6">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-xs font-bold">
-            <div className="flex items-center gap-2">
-              <span className="mono border border-black bg-black px-2 py-0.5 text-[10px] text-[#54e38e]">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="mono rounded border border-[#101010] bg-[#101010] px-2 py-0.5 text-[10px] text-[#20C77A]">
                 JOURNEY MEMORY
               </span>
               <span>
-                Welcome back, {DEMO_CUSTOMER.name}. Your claim is <strong>72% complete</strong>.
-                Policy and documents are already verified—only one confirmation step remains.
+                WELCOME BACK, {DEMO_CUSTOMER.name.toUpperCase()}. Your claim is 72% complete.
+              </span>
+              <span className="hidden md:inline text-[#555555]">
+                ✓ Policy verified · ✓ Identity verified · ✓ Hospital verified · 1 action remaining.
               </span>
             </div>
             <button
               onClick={() => setCurrentStepId("reroute")}
-              className="mono border border-black bg-white px-2.5 py-1 text-[11px] font-black hover:bg-neutral-100"
+              className="mono brutal-btn bg-[#20C77A] px-3 py-1 text-xs font-black text-[#101010] hover:bg-[#1bb36d]"
             >
-              Continue from Blocker →
+              CONTINUE JOURNEY →
             </button>
           </div>
         </div>
       )}
 
-      {/* Main Journey Layout */}
+      {/* Main 3-Column Layout (Section 11) */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[320px_1fr]">
-          {/* Left Journey Sidebar State Machine */}
+        <div className="grid gap-6 lg:grid-cols-[260px_1fr_280px] items-start">
+          {/* Left Column: Journey Navigation Rail */}
           <JourneySidebar
             steps={steps}
             currentStepId={currentStepId}
             progressPercent={progressPercent}
             onStepSelect={(id) => setCurrentStepId(id)}
-            isConflictActive={currentStepId === "reroute" || (currentStepId === "verification" && !conflict.resolved)}
+            isConflictActive={
+              currentStepId === "reroute" ||
+              (currentStepId === "verification" && !conflict.resolved)
+            }
           />
 
-          {/* Right Main Task Panel */}
+          {/* Center Column: Current Journey Task */}
           <div className="min-w-0 space-y-6">
             <InteractiveJourneySandbox
-              currentBillDob={documents.find((d) => d.category === "Hospital Bill")?.extractedFields["Date of Birth"] || "17/07/1998"}
+              currentBillDob={
+                documents.find((d) => d.category === "Hospital Bill")?.extractedFields[
+                  "Date of Birth"
+                ] || "17/07/1998"
+              }
               currentAmount={currentScenario === "high_risk" ? 185000 : 84500}
               onApplyCustomValues={handleApplyCustomValues}
             />
@@ -298,7 +329,9 @@ export default function JourneyPage() {
             {currentStepId === "policy" && (
               <PolicyStep
                 onContinue={() => setCurrentStepId("evidence")}
-                onOpenExplain={(key) => setExplainContext(EXPLAINABILITY_KNOWLEDGE_BASE[key] || null)}
+                onOpenExplain={(key) =>
+                  setExplainContext(EXPLAINABILITY_KNOWLEDGE_BASE[key] || null)
+                }
               />
             )}
 
@@ -336,7 +369,9 @@ export default function JourneyPage() {
                     setCurrentStepId("risk");
                   }
                 }}
-                onOpenExplain={(key) => setExplainContext(EXPLAINABILITY_KNOWLEDGE_BASE[key] || null)}
+                onOpenExplain={(key) =>
+                  setExplainContext(EXPLAINABILITY_KNOWLEDGE_BASE[key] || null)
+                }
               />
             )}
 
@@ -344,7 +379,9 @@ export default function JourneyPage() {
               <ConflictRerouteStep
                 conflict={conflict}
                 onResolve={handleResolveConflict}
-                onOpenExplain={(key) => setExplainContext(EXPLAINABILITY_KNOWLEDGE_BASE[key] || null)}
+                onOpenExplain={(key) =>
+                  setExplainContext(EXPLAINABILITY_KNOWLEDGE_BASE[key] || null)
+                }
                 onEscalateToHuman={() => setCurrentStepId("risk")}
               />
             )}
@@ -353,7 +390,9 @@ export default function JourneyPage() {
               <RiskStep
                 assessment={riskAssessment}
                 onContinue={() => setCurrentStepId("completion")}
-                onOpenExplain={(key) => setExplainContext(EXPLAINABILITY_KNOWLEDGE_BASE[key] || null)}
+                onOpenExplain={(key) =>
+                  setExplainContext(EXPLAINABILITY_KNOWLEDGE_BASE[key] || null)
+                }
               />
             )}
 
@@ -366,15 +405,32 @@ export default function JourneyPage() {
               />
             )}
           </div>
+
+          {/* Right Column: Context / Evidence / AI Explanation (Section 11) */}
+          <div className="hidden lg:block">
+            <JourneyContextPanel
+              documents={documents}
+              conflict={conflict}
+              currentStepId={currentStepId}
+              onOpenExplain={(key) =>
+                setExplainContext(EXPLAINABILITY_KNOWLEDGE_BASE[key] || null)
+              }
+              onViewDoc={(doc) => {
+                setInspectedDoc(doc);
+                setInspectedField(null);
+              }}
+            />
+          </div>
         </div>
       </main>
 
-      {/* Modals */}
+      {/* Explainability Right Drawer */}
       <ExplainabilityModal
         context={explainContext}
         onClose={() => setExplainContext(null)}
       />
 
+      {/* Evidence Viewer Modal */}
       <EvidenceModal
         document={inspectedDoc}
         highlightField={inspectedField}

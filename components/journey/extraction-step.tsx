@@ -1,7 +1,7 @@
 "use client";
 
 import { DocumentEvidence } from "@/lib/types";
-import { ArrowRight, CheckCircle2, Eye, FileText, Sparkles, AlertTriangle } from "lucide-react";
+import { ArrowRight, Check, Eye, FileText, Sparkles } from "lucide-react";
 
 interface ExtractionStepProps {
   documents: DocumentEvidence[];
@@ -18,121 +18,102 @@ export function ExtractionStep({
 }: ExtractionStepProps) {
   const hospitalBill = documents.find((d) => d.category === "Hospital Bill") || documents[1];
 
+  const extractedFields = [
+    { label: "PATIENT NAME", value: "Sukrut Dusane", status: "✓" },
+    { label: "HOSPITAL", value: "CityCare Hospital", status: "✓" },
+    { label: "ADMISSION DATE", value: "12/08/2026", status: "✓" },
+    { label: "DISCHARGE DATE", value: "17/08/2026", status: "✓" },
+    { label: "CLAIM AMOUNT", value: "₹84,500", status: "✓" },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <div className="mono mb-2 inline-flex items-center gap-2 border border-black bg-[#54e38e] px-2.5 py-1 text-xs font-black uppercase text-black">
-          <Sparkles size={13} />
-          STEP 4 · DOCUMENT INTELLIGENCE
+        <div className="mono mb-2 inline-flex items-center gap-2 rounded border border-[#101010] bg-[#20C77A] px-2.5 py-1 text-xs font-black uppercase text-[#101010]">
+          <Sparkles size={13} strokeWidth={2.5} />
+          STEP 4 · EXTRACTED DATA
         </div>
         <h2 className="text-3xl font-black tracking-tight text-[#101010]">
-          Information Extracted from Evidence
+          Extracted Data View
         </h2>
-        <p className="mt-2 text-sm text-neutral-600">
-          Visual Language Models and OCR turned submitted PDF artifacts into structured, confidence-scored fields.
+        <p className="mt-1 text-sm text-[#555555]">
+          Structured parameters extracted with high-confidence OCR and entity parsing.
         </p>
       </div>
 
-      {/* Main Focus: Hospital Bill Extraction Card */}
-      <div className="brutal-border brutal-shadow bg-[#fffef8] p-5 sm:p-6">
-        <div className="flex flex-wrap items-center justify-between border-b-2 border-black pb-4">
-          <div className="flex items-center gap-3">
-            <div className="brutal-border flex h-10 w-10 items-center justify-center bg-[#bcd8ff]">
-              <FileText size={20} />
-            </div>
-            <div>
-              <span className="mono text-xs font-bold uppercase text-neutral-500">
-                PRIMARY INVOICE ARTIFACT
-              </span>
-              <h3 className="text-xl font-black text-[#101010]">
-                {hospitalBill ? hospitalBill.name : "Itemized Hospital Bill"}
-              </h3>
-            </div>
+      {/* Main Extracted Fields Card */}
+      <div className="rounded-lg border-2 border-[#101010] bg-white p-6 shadow-[4px_4px_0px_#101010]">
+        <div className="flex flex-wrap items-center justify-between border-b-2 border-[#101010] pb-4">
+          <div>
+            <span className="mono text-[10px] font-black uppercase text-[#555555]">DOCUMENT SOURCE</span>
+            <h3 className="text-lg font-black text-[#101010]">Hospital Bill (CityCare Invoice)</h3>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="border-2 border-black bg-white px-3 py-1.5 text-right">
-              <span className="mono block text-[10px] uppercase text-neutral-500">
-                EXTRACTION CONFIDENCE
-              </span>
-              <span className="text-base font-black text-emerald-700">
-                {hospitalBill ? Math.round(hospitalBill.confidence * 100) : 96}%
-              </span>
-            </div>
+            <span className="mono rounded border border-[#101010] bg-[#D7F7E7] px-2.5 py-1 text-xs font-black text-[#101010]">
+              CONFIDENCE 96%
+            </span>
+
             {hospitalBill && (
               <button
                 onClick={() => onViewEvidence(hospitalBill)}
-                className="brutal-btn flex items-center gap-1.5 bg-black px-3 py-2 text-xs font-bold text-white hover:bg-neutral-800"
+                className="brutal-btn inline-flex items-center gap-1.5 bg-[#FAF9F5] px-3 py-1.5 text-xs font-black text-[#101010] hover:bg-white"
               >
                 <Eye size={13} />
-                <span>VIEW EVIDENCE</span>
+                <span>VIEW SOURCE</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* Extracted Fields Grid */}
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {hospitalBill &&
-            Object.entries(hospitalBill.extractedFields).map(([label, val]) => {
-              const isDob = label.toLowerCase().includes("birth");
-              return (
-                <div
-                  key={label}
-                  className={`border-2 p-3.5 transition-all ${
-                    isDob && isConflictScenario
-                      ? "border-amber-500 bg-[#fff0b8]"
-                      : "border-black bg-white"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="mono text-[10px] uppercase text-neutral-500">{label}</span>
-                    <button
-                      onClick={() => onViewEvidence(hospitalBill, label)}
-                      className="mono text-[10px] font-bold text-emerald-800 underline hover:text-black"
-                    >
-                      Audit
-                    </button>
-                  </div>
-                  <div className="mt-1 flex items-baseline justify-between">
-                    <span className="text-base font-black text-[#101010]">{val}</span>
-                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#54e38e] text-[10px] text-black">
-                      ✓
-                    </span>
-                  </div>
-                  {isDob && isConflictScenario && (
-                    <p className="mono mt-1 text-[10px] font-bold text-amber-800">
-                      ⚠ Differs from Policy Record (14/07/1998)
-                    </p>
-                  )}
-                </div>
-              );
-            })}
+        {/* Fields List */}
+        <div className="mt-6 divide-y divide-neutral-200">
+          {extractedFields.map((field) => (
+            <div key={field.label} className="py-3 flex items-center justify-between">
+              <span className="mono text-xs font-black uppercase text-[#555555]">
+                {field.label}
+              </span>
+              <div className="flex items-center gap-3">
+                <span className="mono text-sm font-black text-[#101010]">
+                  {field.value}
+                </span>
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#20C77A] text-xs font-black text-[#101010]">
+                  {field.status}
+                </span>
+              </div>
+            </div>
+          ))}
+          {/* DOB Field with conflict notice */}
+          <div className="py-3 flex items-center justify-between bg-[#FFF8E7] px-3 rounded mt-2">
+            <div>
+              <span className="mono text-xs font-black uppercase text-[#B45309]">
+                DATE OF BIRTH (BILL)
+              </span>
+              {isConflictScenario && (
+                <p className="mono text-[10px] text-[#E85C65] font-bold">
+                  ! Differs from Policy Record (14/07/1998)
+                </p>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="mono text-sm font-black text-[#E85C65]">
+                17/07/1998
+              </span>
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#E85C65] text-xs font-black text-white">
+                !
+              </span>
+            </div>
+          </div>
         </div>
 
-        {/* Confidence Meter */}
-        <div className="mt-5 border-2 border-black bg-white p-4">
-          <div className="flex items-center justify-between text-xs font-bold">
-            <span>OCR & ENTITY EXTRACTION FIDELITY</span>
-            <span className="mono">96.4% ACCURACY SCORE</span>
-          </div>
-          <div className="mt-2 h-2.5 w-full border border-black bg-neutral-100">
-            <div className="h-full bg-[#54e38e]" style={{ width: "96.4%" }} />
-          </div>
-          <p className="mt-2 text-[11px] text-neutral-600">
-            All surgical codes, admission timestamps, and net payable subtotals were parsed without manual data entry.
-          </p>
-        </div>
-
-        {/* Bottom Actions */}
-        <div className="mt-6 flex items-center justify-between border-t-2 border-black pt-4">
-          <span className="mono text-xs text-neutral-600">
-            Reconciliation ready across 4 submitted documents
+        <div className="mt-6 flex items-center justify-between border-t-2 border-[#101010] pt-4">
+          <span className="mono text-xs text-[#555555]">
+            4 documents analyzed · Ready for reconciliation
           </span>
           <button
             onClick={onContinue}
-            className="brutal-btn flex items-center gap-2 bg-[#54e38e] px-6 py-2.5 text-xs font-black text-black hover:bg-[#40d27c]"
+            className="brutal-btn inline-flex items-center gap-2 bg-[#20C77A] px-5 py-2.5 text-xs font-black text-[#101010] hover:bg-[#1bb36d]"
           >
             <span>PROCEED TO VERIFICATION</span>
             <ArrowRight size={14} />
