@@ -1,0 +1,53 @@
+{
+  "summary": {
+    "activeJourneys": 1248,
+    "completionRate": 84.6,
+    "avgJourneyTimeMinutes": 18,
+    "rerouteRate": 21.4,
+    "dropOffRate": 15.4,
+    "humanEscalationRate": 7.2,
+    "totalClaimsProcessed": 9820,
+    "satisfactionScore": 4.8
+  },
+  "funnel": [
+    { "stage": "Goal Stated", "count": 1248, "percentage": 100, "dropOff": 0 },
+    { "stage": "Policy Verified", "count": 1198, "percentage": 96.0, "dropOff": 4.0 },
+    { "stage": "Documents Uploaded", "count": 1110, "percentage": 88.9, "dropOff": 7.1 },
+    { "stage": "Evidence Verified", "count": 1084, "percentage": 86.8, "dropOff": 2.1 },
+    { "stage": "Rerouted / Resolved", "count": 1062, "percentage": 85.1, "dropOff": 1.7 },
+    { "stage": "Ready for Human Review", "count": 1056, "percentage": 84.6, "dropOff": 0.5 }
+  ],
+  "frictionPoints": [
+    { "category": "Document Upload Friction", "percentage": 32, "count": 399 },
+    { "category": "Cross-Document Verification Mismatch", "percentage": 24, "count": 299 },
+    { "category": "Missing Hospital / Clinical Evidence", "percentage": 18, "count": 224 },
+    { "category": "Conflict Clarification Awaiting Response", "percentage": 14, "count": 174 },
+    { "category": "Other Technical & Form Validation", "percentage": 12, "count": 152 }
+  ],
+  "conflictDistribution": [
+    { "type": "DOB / Identity Mismatch", "count": 18, "share": "31%" },
+    { "type": "Duplicate Document Detected", "count": 11, "share": "19%" },
+    { "type": "Claim Amount Variance", "count": 9, "share": "16%" },
+    { "type": "Repeated Consecutive Claims", "count": 7, "share": "12%" },
+    { "type": "Low OCR / Scanned Image Confidence", "count": 5, "share": "9%" },
+    { "type": "Missing Doctor Signature / Stamp", "count": 8, "share": "13%" }
+  ],
+  "frictionComparison": {
+    "traditional": {
+      "steps": 12,
+      "documents": 7,
+      "manualInputs": 5,
+      "interruptions": 3,
+      "avgDaysToResolution": 14,
+      "abandonmentRate": 38.5
+    },
+    "reroute": {
+      "steps": 7,
+      "documents": 4,
+      "manualInputs": 2,
+      "interruptions": 1,
+      "avgDaysToResolution": 2.5,
+      "abandonmentRate": 15.4
+    }
+  }
+}

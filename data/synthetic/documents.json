@@ -1,0 +1,86 @@
+[
+  {
+    "id": "DOC-01",
+    "name": "Health Policy Schedule",
+    "category": "Policy",
+    "fileName": "Policy_Schedule_POL1024.pdf",
+    "size": "428 KB",
+    "uploadDate": "2026-09-24",
+    "status": "VERIFIED",
+    "confidence": 0.98,
+    "ocrConfidence": 0.99,
+    "extractedFields": {
+      "policyNumber": "POL-2026-1024",
+      "policyholderName": "Sukrut Dusane",
+      "dateOfBirth": "1998-07-14",
+      "sumInsured": "₹5,00,000",
+      "policyExpiry": "2027-03-31",
+      "planType": "Comprehensive Health Shield"
+    },
+    "rawSnippet": "CARE HEALTH ASSURANCE LTD. Policyholder: Sukrut Dusane. DOB: 14/07/1998. Policy ID: POL-2026-1024. Sum Insured: INR 5,00,000. Plan: Comprehensive Health Shield. Inception: 01/04/2024. Expiry: 31/03/2027.",
+    "highlightCoordinates": { "x": 120, "y": 85, "width": 240, "height": 30 }
+  },
+  {
+    "id": "DOC-02",
+    "name": "Itemized Final Hospital Bill",
+    "category": "Hospital Bill",
+    "fileName": "Hospital_Bill_CityCare_84500.pdf",
+    "size": "1.2 MB",
+    "uploadDate": "2026-09-24",
+    "status": "CONFLICT",
+    "confidence": 0.94,
+    "ocrConfidence": 0.96,
+    "extractedFields": {
+      "patientName": "Sukrut Dusane",
+      "dateOfBirth": "1998-07-17",
+      "hospitalName": "CityCare Super Speciality Hospital",
+      "admissionDate": "2026-08-12",
+      "dischargeDate": "2026-08-17",
+      "totalAmount": "₹84,500",
+      "billNumber": "INV-CC-2026-8841"
+    },
+    "rawSnippet": "CITYCARE HOSPITAL & RESEARCH CENTER. Inpatient Invoice #INV-CC-2026-8841. Patient: Sukrut Dusane. DOB Recorded: 17/07/1998. Admission: 12/08/2026 14:20. Discharge: 17/08/2026 11:30. Bed Category: Single AC Deluxe. Net Total Payable: INR 84,500.00.",
+    "highlightCoordinates": { "x": 110, "y": 140, "width": 260, "height": 34 }
+  },
+  {
+    "id": "DOC-03",
+    "name": "Clinical Discharge Summary",
+    "category": "Discharge Summary",
+    "fileName": "Discharge_Summary_Sukrut_Aug2026.pdf",
+    "size": "850 KB",
+    "uploadDate": "2026-09-24",
+    "status": "VERIFIED",
+    "confidence": 0.96,
+    "ocrConfidence": 0.97,
+    "extractedFields": {
+      "patientName": "Sukrut Dusane",
+      "finalDiagnosis": "Acute Appendicitis with Localized Peritonitis",
+      "procedureConducted": "Laparoscopic Appendectomy",
+      "admissionDate": "2026-08-12",
+      "dischargeDate": "2026-08-17",
+      "treatingSurgeon": "Dr. V. K. Kulkarni, MS (Gen Surg)"
+    },
+    "rawSnippet": "DEPARTMENT OF SURGICAL CARE. Patient Sukrut Dusane. Diagnosis: Acute Appendicitis. Procedure: Laparoscopic Appendectomy on 13/08/2026. Course in hospital uneventful. Discharged in stable condition on 17/08/2026. Treating Consultant: Dr. V. K. Kulkarni.",
+    "highlightCoordinates": { "x": 95, "y": 210, "width": 300, "height": 45 }
+  },
+  {
+    "id": "DOC-04",
+    "name": "Government Photo Identity Card",
+    "category": "ID Proof",
+    "fileName": "Aadhaar_Card_Masked_Sukrut.pdf",
+    "size": "340 KB",
+    "uploadDate": "2026-09-24",
+    "status": "VERIFIED",
+    "confidence": 0.99,
+    "ocrConfidence": 0.99,
+    "extractedFields": {
+      "fullName": "Sukrut Dusane",
+      "dateOfBirth": "1998-07-14",
+      "gender": "Male",
+      "documentType": "Aadhaar (VID Masked)",
+      "idNumber": "XXXX-XXXX-4912"
+    },
+    "rawSnippet": "UNIQUE IDENTIFICATION AUTHORITY OF INDIA. Name: Sukrut Dusane. DOB: 14/07/1998. Gender: Male. VID: 9182 XXXX XXXX 4912. Address: Mumbai, Maharashtra.",
+    "highlightCoordinates": { "x": 140, "y": 95, "width": 220, "height": 28 }
+  }
+]

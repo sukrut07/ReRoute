@@ -1,0 +1,46 @@
+[
+  {
+    "id": "CUS-DEMO-001",
+    "name": "Sukrut Dusane",
+    "email": "sukrut.demo@example.com",
+    "phone": "+91 98765 43210",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "dob": "1998-07-14",
+    "policyNumber": "POL-2026-1024",
+    "activeJourneyId": "R-1024"
+  },
+  {
+    "id": "CUS-DEMO-002",
+    "name": "Priya Sharma",
+    "email": "priya.demo@example.com",
+    "phone": "+91 98111 22334",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "dob": "1992-11-20",
+    "policyNumber": "POL-2026-3042",
+    "activeJourneyId": "R-1025"
+  },
+  {
+    "id": "CUS-DEMO-003",
+    "name": "Rajesh Verma",
+    "email": "rajesh.demo@example.com",
+    "phone": "+91 97234 55667",
+    "city": "Delhi NCR",
+    "state": "Delhi",
+    "dob": "1985-03-08",
+    "policyNumber": "POL-2025-8819",
+    "activeJourneyId": "R-1026"
+  },
+  {
+    "id": "CUS-DEMO-004",
+    "name": "Ananya Iyer",
+    "email": "ananya.demo@example.com",
+    "phone": "+91 99401 99882",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "dob": "1995-09-29",
+    "policyNumber": "POL-2026-5511",
+    "activeJourneyId": "R-1027"
+  }
+]

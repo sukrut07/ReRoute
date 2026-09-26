@@ -1,0 +1,22 @@
+[
+  {
+    "claimId": "CLM-2026-4402",
+    "journeyId": "R-1024",
+    "policyNumber": "POL-2026-1024",
+    "claimant": "Sukrut Dusane",
+    "hospital": "CityCare Super Speciality Hospital",
+    "admissionDate": "2026-08-12",
+    "dischargeDate": "2026-08-17",
+    "diagnosis": "Acute Appendicitis - Laparoscopic Appendectomy",
+    "breakdown": {
+      "roomRent": 25000,
+      "otAndSurgeonFees": 35000,
+      "pharmacy": 14200,
+      "diagnosticScans": 8300,
+      "miscellaneous": 2000
+    },
+    "totalClaimed": 84500,
+    "eligibleEstimated": 84500,
+    "status": "REROUTE_CONFIRMATION_PENDING"
+  }
+]

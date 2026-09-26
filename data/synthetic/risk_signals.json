@@ -1,0 +1,46 @@
+[
+  {
+    "id": "SIG-01",
+    "caseId": "R-1024",
+    "type": "DOB_MISMATCH",
+    "label": "Date of Birth Mismatch",
+    "severity": "MEDIUM",
+    "scoreDelta": 35,
+    "detail": "Policy document records 14/07/1998 whereas hospital admission desk captured 17/07/1998.",
+    "detectedAt": "2026-09-24T10:18:22Z",
+    "syntheticEvidence": "DOC-01 (Policy) vs DOC-02 (Hospital Bill)"
+  },
+  {
+    "id": "SIG-02",
+    "caseId": "R-1024",
+    "type": "CLAIM_AMOUNT_ANOMALY",
+    "label": "Claim Amount Variance",
+    "severity": "LOW",
+    "scoreDelta": 7,
+    "detail": "Amount ₹84,500 is within 1.15x standard variance for Tier-1 network appendectomy.",
+    "detectedAt": "2026-09-24T10:19:05Z",
+    "syntheticEvidence": "DOC-02 Line Items Reconciled"
+  },
+  {
+    "id": "SIG-03",
+    "caseId": "R-1026",
+    "type": "CLAIM_AMOUNT_ANOMALY",
+    "label": "High Ticket Inpatient Reimbursement",
+    "severity": "HIGH",
+    "scoreDelta": 45,
+    "detail": "Claim amount ₹1,85,000 exceeds regional percentile (p90) for unilateral knee arthroplasty.",
+    "detectedAt": "2026-09-25T09:12:00Z",
+    "syntheticEvidence": "DOC-09 Hospital Ledger"
+  },
+  {
+    "id": "SIG-04",
+    "caseId": "R-1026",
+    "type": "REPEATED_CLAIMS",
+    "label": "Rapid Consecutive Claim Submissions",
+    "severity": "MEDIUM",
+    "scoreDelta": 23,
+    "detail": "Two orthopedic claims initiated within 45 days on same policy.",
+    "detectedAt": "2026-09-25T09:14:10Z",
+    "syntheticEvidence": "Historical Claims Registry: POL-2025-8819"
+  }
+]
