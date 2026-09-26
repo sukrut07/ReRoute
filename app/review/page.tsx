@@ -90,12 +90,20 @@ export default function ReviewPage() {
                 AI EXPLAINS
               </span>
               <span className="text-[#666666]">→</span>
+              <span className="rounded border border-[#D97706] bg-[#FEF3C7] px-2.5 py-1 text-[#92400E]">
+                REROUTE RECOMMENDS
+              </span>
+              <span className="text-[#666666]">→</span>
               <span className="rounded border border-[#111111] bg-[#DDF8EA] px-2.5 py-1 text-[#111111]">
                 HUMAN REVIEWS
               </span>
               <span className="text-[#666666]">→</span>
               <span className="rounded border border-[#111111] bg-[#20C979] px-2.5 py-1 text-[#111111]">
                 HUMAN DECIDES
+              </span>
+              <span className="text-[#666666]">→</span>
+              <span className="rounded border border-[#111111] bg-[#111111] px-2.5 py-1 text-white">
+                JOURNEY CONTINUES
               </span>
             </div>
             <span className="mono text-[11px] text-[#666666]">ZERO BLACK-BOX DENIALS</span>

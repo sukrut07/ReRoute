@@ -26,6 +26,7 @@ export class RerouteEngine {
       // If high risk or low confidence, escalate to Human Review
       if (riskScore >= 60 || confidence < 0.7) {
         return {
+          action: "HUMAN_REVIEW",
           actionType: "HUMAN_REVIEW",
           reason: `High risk (${riskScore}/100) or low confidence (${Math.round(confidence * 100)}%) with unresolved discrepancy: ${primary.label}`,
           nextSafeStep: "ESCALATE_TO_OFFICER",
@@ -40,6 +41,7 @@ export class RerouteEngine {
       // Standard user-resolvable conflict (e.g. DOB mismatch)
       if (primary.field === "date_of_birth") {
         return {
+          action: "RESOLVE_CONFLICT",
           actionType: "RESOLVE_CONFLICT",
           reason: "Date of Birth differs between Policy Schedule and Hospital Invoice",
           nextSafeStep: "CONFIRM_DOB",
@@ -67,6 +69,7 @@ export class RerouteEngine {
       }
 
       return {
+        action: "REQUEST_CLARIFICATION",
         actionType: "REQUEST_CLARIFICATION",
         reason: primary.description,
         nextSafeStep: `CLARIFY_${primary.field.toUpperCase()}`,
@@ -81,6 +84,7 @@ export class RerouteEngine {
     if (missingInformation.length > 0) {
       const missingDoc = missingInformation[0];
       return {
+        action: "REQUEST_DOCUMENT",
         actionType: "REQUEST_DOCUMENT",
         reason: `Mandatory document [${missingDoc}] is missing from submission packet`,
         nextSafeStep: `UPLOAD_${missingDoc.toUpperCase().replace(/\s+/g, "_")}`,
@@ -94,6 +98,7 @@ export class RerouteEngine {
     const allVerified = evidence.every((doc) => doc.status === "VERIFIED");
     if (!allVerified) {
       return {
+        action: "REVERIFY",
         actionType: "REVERIFY",
         reason: "Re-verifying updated evidence against policy rules",
         nextSafeStep: "RUN_VERIFICATION_PASS",
@@ -105,6 +110,7 @@ export class RerouteEngine {
 
     // 4. Everything verified, prepare review packet
     return {
+      action: "COMPLETE",
       actionType: "COMPLETE",
       reason: "All evidence gathered, reconciled, and validated against policy schedule",
       nextSafeStep: "PREPARE_FINAL_PACKET",

@@ -46,14 +46,17 @@ export default function JourneyPage() {
   const [inspectedField, setInspectedField] = useState<string | null>(null);
   const [hasVisitedBefore, setHasVisitedBefore] = useState<boolean>(true);
 
-  // Scenario switching
+  // Scenario switching with deterministic state reset (Section 7)
   const handleSelectScenario = (scenarioId: DemoScenarioId) => {
     setCurrentScenario(scenarioId);
+    setExplainContext(null);
+    setInspectedDoc(null);
+    setInspectedField(null);
 
     if (scenarioId === "dob_conflict") {
       setCurrentStepId("reroute");
       setDocuments(INITIAL_DEMO_DOCUMENTS);
-      setConflict({ ...INITIAL_DEMO_CONFLICT, resolved: false });
+      setConflict({ ...INITIAL_DEMO_CONFLICT, resolved: false, resolvedValue: undefined });
       setSteps(DEFAULT_JOURNEY_STEPS);
     } else if (scenarioId === "happy_path") {
       setCurrentStepId("verification");
@@ -71,20 +74,45 @@ export default function JourneyPage() {
         return { ...doc, status: "VERIFIED" as const };
       });
       setDocuments(cleanDocs);
-      setConflict({ ...INITIAL_DEMO_CONFLICT, resolved: true });
+      setConflict({
+        ...INITIAL_DEMO_CONFLICT,
+        resolved: true,
+        resolvedValue: "14/07/1998",
+      });
       setSteps(
-        DEFAULT_JOURNEY_STEPS.map((s) =>
-          s.id === "reroute" ? { ...s, status: "skipped" as const } : s
-        )
+        DEFAULT_JOURNEY_STEPS.map((s) => {
+          if (["goal", "policy", "evidence", "extraction"].includes(s.id)) {
+            return { ...s, status: "completed" as const };
+          }
+          if (s.id === "verification") {
+            return { ...s, status: "current" as const };
+          }
+          if (s.id === "reroute") {
+            return { ...s, status: "skipped" as const };
+          }
+          return { ...s, status: "pending" as const };
+        })
       );
     } else if (scenarioId === "missing_evidence") {
       setCurrentStepId("evidence");
       const missingDocs = INITIAL_DEMO_DOCUMENTS.map((doc) =>
         doc.category === "Discharge Summary"
           ? { ...doc, status: "MISSING" as const }
-          : doc
+          : { ...doc, status: "VERIFIED" as const }
       );
       setDocuments(missingDocs);
+      setConflict({ ...INITIAL_DEMO_CONFLICT, resolved: false });
+      setSteps(
+        DEFAULT_JOURNEY_STEPS.map((s) => {
+          if (["goal", "policy"].includes(s.id)) {
+            return { ...s, status: "completed" as const };
+          }
+          if (s.id === "evidence") {
+            return { ...s, status: "current" as const };
+          }
+          return { ...s, status: "pending" as const };
+        })
+      );
     } else if (scenarioId === "high_risk") {
       setCurrentStepId("risk");
       const highAmountDocs = INITIAL_DEMO_DOCUMENTS.map((doc) =>
@@ -97,9 +125,28 @@ export default function JourneyPage() {
               },
               ocrConfidence: 0.68,
             }
-          : doc
+          : { ...doc, status: "VERIFIED" as const }
       );
       setDocuments(highAmountDocs);
+      setConflict({
+        ...INITIAL_DEMO_CONFLICT,
+        resolved: true,
+        resolvedValue: "14/07/1998",
+      });
+      setSteps(
+        DEFAULT_JOURNEY_STEPS.map((s) => {
+          if (["goal", "policy", "evidence", "extraction", "verification"].includes(s.id)) {
+            return { ...s, status: "completed" as const };
+          }
+          if (s.id === "reroute") {
+            return { ...s, status: "skipped" as const };
+          }
+          if (s.id === "risk") {
+            return { ...s, status: "current" as const };
+          }
+          return { ...s, status: "pending" as const };
+        })
+      );
     }
   };
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { ExplainabilityContext } from "@/lib/types";
-import { X, HelpCircle, ShieldCheck, BookOpen, ArrowRight } from "lucide-react";
+import { X, ShieldCheck } from "lucide-react";
 
 interface ExplainabilityDrawerProps {
   context: ExplainabilityContext | null;
@@ -26,7 +26,7 @@ export function ExplainabilityModal({ context, onClose }: ExplainabilityDrawerPr
                 EXPLAINABLE AI DRAWER
               </span>
               <h3 className="text-lg font-black text-[#111111] mt-0.5">
-                WHY WAS THIS FLAGGED?
+                {context.title || "WHY WAS THIS FLAGGED?"}
               </h3>
             </div>
             <button
@@ -38,35 +38,46 @@ export function ExplainabilityModal({ context, onClose }: ExplainabilityDrawerPr
             </button>
           </div>
 
-          {/* Rationale */}
-          <div className="mt-4 space-y-3.5 text-xs">
+          {/* Section 10 Standardized Sections: WHAT HAPPENED? / WHY? / EVIDENCE / CONFIDENCE / NEXT ACTION */}
+          <div className="mt-4 space-y-3 text-xs">
+            {/* 1. WHAT HAPPENED? */}
             <div className="rounded border border-[#111111] bg-white p-3.5">
               <span className="mono text-[10px] font-black uppercase text-[#666666]">
-                EVALUATION RATIONALE
+                WHAT HAPPENED?
               </span>
               <p className="mt-1 text-xs font-bold text-[#111111] leading-snug">
-                {context.summary || "Two sources contain different dates of birth."}
+                {context.summary || "DOB differs between two submitted documents."}
               </p>
             </div>
 
-            {/* Sources */}
+            {/* 2. WHY? */}
             <div className="rounded border border-[#111111] bg-white p-3.5">
               <span className="mono text-[10px] font-black uppercase text-[#666666]">
-                DISCORDANT SOURCES
+                WHY?
+              </span>
+              <p className="mt-1 text-xs text-[#111111] leading-relaxed">
+                Critical identity information must remain consistent across submitted records to prevent misattribution and ensure policy entitlement validity.
+              </p>
+            </div>
+
+            {/* 3. EVIDENCE */}
+            <div className="rounded border border-[#111111] bg-white p-3.5">
+              <span className="mono text-[10px] font-black uppercase text-[#666666]">
+                EVIDENCE
               </span>
               <div className="mt-2 space-y-1.5 mono">
                 <div className="flex items-center justify-between border-b border-neutral-100 pb-1">
                   <span className="text-[#111111]">Policy Schedule</span>
-                  <span className="text-[#20C979] font-bold">POL-2026-1024</span>
+                  <span className="text-[#20C979] font-bold">14/07/1998</span>
                 </div>
                 <div className="flex items-center justify-between pt-1">
                   <span className="text-[#111111]">Hospital Bill</span>
-                  <span className="text-[#D9414B] font-bold">CityCare Invoice</span>
+                  <span className="text-[#D9414B] font-bold">17/07/1998</span>
                 </div>
               </div>
             </div>
 
-            {/* Confidence & Next Action */}
+            {/* 4. CONFIDENCE & 5. NEXT ACTION */}
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded border border-[#111111] bg-white p-3">
                 <span className="mono text-[10px] font-black uppercase text-[#666666]">
@@ -80,7 +91,7 @@ export function ExplainabilityModal({ context, onClose }: ExplainabilityDrawerPr
 
               <div className="rounded border border-[#111111] bg-white p-3">
                 <span className="mono text-[10px] font-black uppercase text-[#666666]">
-                  RECOMMENDED ACTION
+                  NEXT ACTION
                 </span>
                 <p className="mt-1 text-xs font-black text-[#111111] leading-tight">
                   Customer confirmation
@@ -89,21 +100,21 @@ export function ExplainabilityModal({ context, onClose }: ExplainabilityDrawerPr
               </div>
             </div>
 
-            {/* Regulatory Clause Citation */}
+            {/* Regulatory Rule Citation */}
             <div className="rounded border border-neutral-300 bg-white p-3 text-[11px] text-[#666666]">
               <div className="flex items-center gap-1.5 text-[#111111] font-bold">
                 <ShieldCheck size={13} className="text-[#20C979]" />
-                <span>IRDAI KYC & Adjudication Rule #K-08</span>
+                <span>Rule Reference: {context.policyRuleId}</span>
               </div>
               <p className="mt-1 italic">
-                &ldquo;Discrepancies in birth certificates or identity numbers must be verified by the policyholder prior to claims discharge.&rdquo;
+                &ldquo;{context.quote}&rdquo;
               </p>
             </div>
           </div>
         </div>
 
         {/* Bottom Close */}
-        <div className="mt-5 border-t border-[#111111] pt-3.5">
+        <div className="mt-4 border-t border-[#111111] pt-3">
           <button
             onClick={onClose}
             className="mono w-full rounded border border-[#111111] bg-[#111111] py-2 text-xs font-black text-white hover:bg-[#333333]"

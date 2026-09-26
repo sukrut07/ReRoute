@@ -145,16 +145,55 @@ export default function RiskPage() {
             <div className="mt-5 space-y-3.5 text-xs">
               {/* Risk Score */}
               <div className="rounded border border-[#111111] bg-[#F7F6F2] p-3 flex items-center justify-between">
-                <span className="mono font-bold text-[#666666]">EVALUATED SCORE</span>
+                <div>
+                  <span className="mono font-bold text-[#666666] block">EVALUATED SCORE</span>
+                  <span className="mono text-[10px] text-[#666666]">SYNTHETIC BENCHMARK</span>
+                </div>
                 <div className="text-right">
                   <span className="mono text-2xl font-black text-[#111111]">42</span>
                   <span className="mono text-xs text-[#666666]"> / 100</span>
                 </div>
               </div>
 
+              {/* Section 12 Traceable Arithmetic Breakdown */}
+              <div className="rounded border border-[#111111] bg-[#F7F6F2] p-3">
+                <div className="flex items-center justify-between border-b border-neutral-300 pb-1.5 mb-2">
+                  <span className="mono text-[10px] font-black uppercase text-[#111111]">
+                    TRACEABLE ARITHMETIC BREAKDOWN
+                  </span>
+                  <span className="mono text-[10px] text-[#666666]">DETERMINISTIC</span>
+                </div>
+                <div className="space-y-1.5 mono">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-bold text-[#111111]">DOB mismatch</span>
+                    <span className="font-black text-[#D9414B]">+35</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-bold text-[#111111]">Amount anomaly</span>
+                    <span className="font-black text-[#D97706]">+7</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-[#666666]">
+                    <span>Duplicate document</span>
+                    <span className="font-bold">+0</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-[#666666]">
+                    <span>OCR quality</span>
+                    <span className="font-bold">+0</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-[#666666]">
+                    <span>Claim frequency</span>
+                    <span className="font-bold">+0</span>
+                  </div>
+                  <div className="flex justify-between items-center pt-1.5 border-t border-neutral-300 font-black text-xs text-[#111111]">
+                    <span>TOTAL</span>
+                    <span>42 / 100</span>
+                  </div>
+                </div>
+              </div>
+
               {/* Signals */}
               <div className="rounded border border-[#111111] bg-white p-3">
-                <span className="mono text-[11px] font-bold text-[#666666] block mb-2">ACTIVE SIGNALS</span>
+                <span className="mono text-[11px] font-bold text-[#666666] block mb-2">OBSERVED SIGNALS</span>
                 <ul className="space-y-1.5 mono text-xs font-bold">
                   <li className="flex items-center gap-2 text-[#92400E]">
                     <AlertTriangle size={13} className="shrink-0 text-[#D97706]" />
@@ -169,6 +208,15 @@ export default function RiskPage() {
                     <span>Claim amount ₹84,500 within inpatient standard median</span>
                   </li>
                 </ul>
+              </div>
+
+              {/* Responsible AI Disclaimer (Section 13) */}
+              <div className="rounded border border-dashed border-neutral-400 bg-[#F7F6F2] p-2.5 text-[11px] text-[#666666]">
+                <div className="flex items-center gap-1 font-bold text-[#111111] mb-0.5">
+                  <Info size={12} />
+                  <span>RESPONSIBLE AI SAFEGUARD</span>
+                </div>
+                Synthetic demonstration risk score — not a fraud determination. AI provides decision support; authorized humans remain responsible for regulated outcomes.
               </div>
 
               {/* Evidence count */}

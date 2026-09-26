@@ -1,4 +1,4 @@
-import { ConflictRecord, DocumentEvidence, RiskAssessment, RiskSignal } from "./types";
+import { ConflictRecord, DocumentEvidence, RiskAssessment, RiskScoreBreakdownItem, RiskSignal } from "./types";
 
 export class RiskEngine {
   /**
@@ -13,16 +13,27 @@ export class RiskEngine {
     hasHistoricalClaims?: boolean;
     isDuplicateDocDemo?: boolean;
   }): RiskAssessment {
-    const { evidence, conflicts, claimAmount = 84500, hasHistoricalClaims = false, isDuplicateDocDemo = false } = params;
+    const {
+      evidence,
+      conflicts,
+      claimAmount = 84500,
+      hasHistoricalClaims = false,
+      isDuplicateDocDemo = false,
+    } = params;
 
     const signals: RiskSignal[] = [];
-    let score = 0;
+    let dobPoints = 0;
+    let namePoints = 0;
+    let amountPoints = 0;
+    let ocrPoints = 0;
+    let duplicatePoints = 0;
+    let frequencyPoints = 0;
 
     // 1. Identity Consistency Checks
     conflicts.forEach((conflict) => {
       if (!conflict.resolved) {
         if (conflict.field === "date_of_birth") {
-          score += 35;
+          dobPoints = 35;
           signals.push({
             id: `SIG-DOB-${Date.now()}`,
             type: "DOB_MISMATCH",
@@ -33,7 +44,7 @@ export class RiskEngine {
             syntheticEvidence: `${conflict.sourceA.docName} & ${conflict.sourceB.docName}`,
           });
         } else if (conflict.field === "patient_name") {
-          score += 25;
+          namePoints = 25;
           signals.push({
             id: `SIG-NAME-${Date.now()}`,
             type: "NAME_MISMATCH",
@@ -49,7 +60,7 @@ export class RiskEngine {
 
     // 2. Claim Amount Threshold Check
     if (claimAmount > 150000) {
-      score += 35;
+      amountPoints = 35;
       signals.push({
         id: `SIG-AMT-${Date.now()}`,
         type: "CLAIM_AMOUNT_ANOMALY",
@@ -60,7 +71,7 @@ export class RiskEngine {
         syntheticEvidence: "Itemized Hospital Invoice",
       });
     } else if (claimAmount > 80000) {
-      score += 7;
+      amountPoints = 7;
       signals.push({
         id: `SIG-AMT-VAR-${Date.now()}`,
         type: "CLAIM_AMOUNT_ANOMALY",
@@ -75,7 +86,7 @@ export class RiskEngine {
     // 3. Document Extraction / OCR Quality Check
     const lowConfDoc = evidence.find((doc) => doc.ocrConfidence < 0.85);
     if (lowConfDoc) {
-      score += 20;
+      ocrPoints = 20;
       signals.push({
         id: `SIG-OCR-${Date.now()}`,
         type: "LOW_OCR_CONFIDENCE",
@@ -89,7 +100,7 @@ export class RiskEngine {
 
     // 4. Duplicate Document Signal
     if (isDuplicateDocDemo) {
-      score += 40;
+      duplicatePoints = 40;
       signals.push({
         id: `SIG-DUP-${Date.now()}`,
         type: "DUPLICATE_DOCUMENT",
@@ -103,7 +114,7 @@ export class RiskEngine {
 
     // 5. Frequency Anomaly
     if (hasHistoricalClaims) {
-      score += 25;
+      frequencyPoints = 25;
       signals.push({
         id: `SIG-FREQ-${Date.now()}`,
         type: "REPEATED_CLAIMS",
@@ -115,18 +126,52 @@ export class RiskEngine {
       });
     }
 
+    const calculatedTotal =
+      dobPoints + namePoints + amountPoints + ocrPoints + duplicatePoints + frequencyPoints;
+
     // Clamp score 0 - 100
-    const finalScore = Math.min(100, Math.max(0, score));
+    const finalScore = Math.min(100, Math.max(0, calculatedTotal));
+
+    // Structured breakdown for visual arithmetic traceability (Section 12)
+    const breakdown: RiskScoreBreakdownItem[] = [
+      {
+        category: "DOB mismatch",
+        label: "Policy record vs hospital bill date of birth discrepancy",
+        points: dobPoints,
+      },
+      {
+        category: "Amount anomaly",
+        label: "Hospital bill amount compared to regional clinical median",
+        points: amountPoints,
+      },
+      {
+        category: "Duplicate document",
+        label: "Image hash duplication check against settled registry",
+        points: duplicatePoints,
+      },
+      {
+        category: "OCR quality",
+        label: "Character extraction confidence threshold (85%)",
+        points: ocrPoints,
+      },
+      {
+        category: "Claim frequency",
+        label: "Multiple claims filed in rolling 30-day window",
+        points: frequencyPoints,
+      },
+    ];
 
     let tier: "LOW" | "MEDIUM" | "HIGH" = "LOW";
     let summary = "Low synthetic risk index. Evidence appears structurally sound and standard.";
 
     if (finalScore >= 61) {
       tier = "HIGH";
-      summary = "Elevated risk index due to multiple compounding discrepancies. Recommended for mandatory human investigation.";
+      summary =
+        "Elevated risk index due to compounding discrepancies. Recommended for mandatory human investigation.";
     } else if (finalScore >= 31) {
       tier = "MEDIUM";
-      summary = "Moderate risk index attributed to document field mismatches. Can be resolved through customer confirmation or routine human review.";
+      summary =
+        "Moderate risk index attributed to document field mismatches. Can be resolved through customer confirmation or routine human review.";
     }
 
     return {
@@ -134,8 +179,9 @@ export class RiskEngine {
       tier,
       summary,
       signals,
+      breakdown,
       disclaimer:
-        "Synthetic demonstration risk score — not a financial decision or fraud determination. Reroute does not autonomously approve or deny claims.",
+        "Synthetic demonstration risk score — not a fraud determination. AI provides decision support; authorized humans remain responsible for regulated outcomes.",
     };
   }
 }

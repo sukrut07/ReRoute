@@ -21,7 +21,7 @@ This document outlines the exact 2–3 minute demonstration flow designed for ha
 | **1:45** | **THE REROUTE SCREEN** | Click **Reroute This Journey**. Display: *"We've rerouted your journey. Instead of restarting your claim, we've identified exactly what needs clarification."* Click **"Why did Reroute flag this?"** to show the policy citation modal. | *"Reroute isolates the exact blocker. All prior verified progress is preserved."* |
 | **2:05** | **Resolution & Recovery** | Click **Confirm 14 July 1998**. Watch the live re-verification pass clear the conflict and advance to Risk Screening. | *"In-place recovery with zero data loss. The customer never had to call a helpline or restart."* |
 | **2:20** | **Risk Screening & Completion** | Show Risk Score `42/100 (Medium)` with transparent signal breakdown and responsible AI disclaimer. Complete journey: *"Ready for final human review"*. | *"We adhere strictly to responsible AI: Reroute orchestrates and packages evidence, leaving final financial determinations to authorized human officers."* |
-| **2:40** | **Journey Intelligence** | Navigate to `/dashboard` to showcase the conversion funnel, drop-off reduction (from 38.5% down to 15.4%), and friction metrics. | *"This is measurable business impact: 41% fewer steps, 43% less paperwork, and 82% faster turnaround time."* |
+| **2:40** | **Journey Intelligence** | Navigate to `/dashboard` to showcase the conversion funnel, synthetic benchmark metrics (41% fewer steps, 43% less paperwork, 60% less manual entry), and drop-off analysis. | *"This is measurable business impact: 41% fewer steps, 43% less paperwork, and 82% faster turnaround time under synthetic testing."* |
 
 ---
 

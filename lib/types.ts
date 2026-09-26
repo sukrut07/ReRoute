@@ -83,6 +83,14 @@ export interface ConflictRecord {
 }
 
 export interface RerouteAction {
+  action:
+    | "CONTINUE"
+    | "REQUEST_DOCUMENT"
+    | "REQUEST_CLARIFICATION"
+    | "RESOLVE_CONFLICT"
+    | "REVERIFY"
+    | "HUMAN_REVIEW"
+    | "COMPLETE";
   actionType:
     | "CONTINUE"
     | "REQUEST_DOCUMENT"
@@ -121,11 +129,18 @@ export interface RiskSignal {
   syntheticEvidence: string;
 }
 
+export interface RiskScoreBreakdownItem {
+  category: string;
+  label: string;
+  points: number;
+}
+
 export interface RiskAssessment {
   score: number; // 0 to 100
   tier: "LOW" | "MEDIUM" | "HIGH";
   summary: string;
   signals: RiskSignal[];
+  breakdown: RiskScoreBreakdownItem[];
   disclaimer: string;
 }
 
@@ -137,7 +152,15 @@ export interface HumanReviewCase {
   claimAmount: string;
   hospitalName: string;
   submissionDate: string;
-  status: "NEEDS_REVIEW" | "IN_REVIEW" | "CLARIFICATION_REQUESTED" | "APPROVED_NEXT_STEP" | "ESCALATED";
+  status:
+    | "NEEDS_HUMAN_REVIEW"
+    | "IN_REVIEW"
+    | "CLARIFICATION_REQUESTED"
+    | "READY_FOR_FINAL_REVIEW"
+    | "COMPLETED"
+    | "ESCALATED"
+    | "NEEDS_REVIEW"
+    | "APPROVED_NEXT_STEP";
   priority: "NORMAL" | "HIGH" | "URGENT";
   issueTitle: string;
   issueDescription: string;

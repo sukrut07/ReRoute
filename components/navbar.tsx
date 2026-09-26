@@ -10,14 +10,15 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const centerLinks = [
-    { href: "/#features", label: "PRODUCT" },
+    { href: "/#product", label: "PRODUCT" },
     { href: "/#how-it-works", label: "HOW IT WORKS" },
     { href: "/journey", label: "JOURNEYS" },
-    { href: "/dashboard", label: "INTELLIGENCE" },
+    { href: "/risk", label: "INTELLIGENCE" },
+    { href: "/dashboard", label: "DASHBOARD" },
   ];
 
   const secondaryNav = [
-    { href: "/review", label: "REVIEW QUEUE" },
+    { href: "/review", label: "HUMAN REVIEW" },
     { href: "/risk", label: "RISK SCREENING" },
   ];
 

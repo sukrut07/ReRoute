@@ -14,13 +14,13 @@ import {
 } from "lucide-react";
 
 export default function DashboardPage() {
-  // Section 19: Top Metrics (Active Journeys, Completed, Rerouted, Pending Review, Average Resolution Time)
+  // Section 22: Top Metrics (ACTIVE JOURNEYS, COMPLETION RATE, REROUTE RATE, PENDING REVIEW, AVG. JOURNEY TIME)
   const topKPIs = [
     { label: "ACTIVE JOURNEYS", value: "1,248", delta: "+14% this week", icon: Activity },
-    { label: "COMPLETED", value: "1,056", delta: "84.6% resolution rate", icon: CheckCircle2 },
-    { label: "REROUTED", value: "267", delta: "21.4% auto-recovered", icon: Route },
+    { label: "COMPLETION RATE", value: "84.6%", delta: "1,056 resolved", icon: CheckCircle2 },
+    { label: "REROUTE RATE", value: "21.4%", delta: "267 in-place recovered", icon: Route },
     { label: "PENDING REVIEW", value: "38", delta: "3.0% human queue", icon: Clock },
-    { label: "AVG RESOLUTION TIME", value: "18m", delta: "-73% duration", icon: TrendingUp },
+    { label: "AVG. JOURNEY TIME", value: "18m", delta: "-73% duration", icon: TrendingUp },
   ];
 
   const funnelSteps = [
@@ -337,7 +337,8 @@ export default function DashboardPage() {
 
             {/* Benchmark panel note */}
             <div className="mt-4 rounded border border-neutral-300 bg-[#F7F6F2] p-3 mono text-[11px] text-[#666666]">
-              Benchmark telemetry: 41% fewer steps, 43% less paperwork, 60% less manual entry, zero waterfall drop-offs.
+              <span className="font-bold text-[#111111]">SYNTHETIC DEMO BENCHMARK: </span>
+              41% fewer steps, 43% less paperwork, 60% less manual entry under simulated journey conditions.
             </div>
           </div>
         </div>

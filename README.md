@@ -9,7 +9,7 @@
 Financial journeys across insurance claims, lending, and fintech onboarding are notoriously fragmented, complex, and process-heavy. Traditional web portals function as rigid, unforgiving waterfalls:
 - **Jargon & Form Overload:** Customers are expected to understand internal product taxonomies, policy exclusions, deductibles, and waiting periods before even starting.
 - **Fragile Verification & Cold Rejections:** A minor typo or discrepancy across documents (e.g., a mismatch in Date of Birth or patient name between hospital invoice and policy) triggers a cold *"Application Incomplete"* or automatic rejection.
-- **Catastrophic Drop-offs:** Over 38% of customers abandon valid claims or credit journeys because recovery requires telephone helpline support or restarting the entire multi-step process from scratch.
+- **Preventable Drop-offs:** Customers frequently abandon valid claims or credit journeys when rigid waterfall processes fail to recover from minor document discrepancies or require restarting from scratch.
 
 ---
 
@@ -219,27 +219,38 @@ All synthetic documents in Reroute follow structured, auditable schemas:
 
 ---
 
-## 7. Main Hackathon Demo Flow (2–3 Minutes)
+## 7. The 5-Minute Hackathon Judging Flow
 
-Judges can execute this exact sequence to experience the product differentiator within 30 seconds:
-1. **Intake (`/journey`):** Customer enters *"I want to claim my hospital expenses for appendicitis surgery."* Click **Begin Journey**.
-2. **Policy Entitlement:** Policy `POL-2026-1024` verified against ₹5,00,000 coverage limit.
-3. **Evidence Extraction:** Four synthetic PDF documents parsed with 96% OCR confidence.
-4. **Deliberate Conflict:** Policy DOB is **14/07/1998** vs Hospital Bill **17/07/1998**.
-5. **The Reroute Moment:** The screen dynamically transitions to:
-   > *"We've rerouted your journey. Instead of restarting your claim, we've identified exactly what needs clarification."*
-6. **Explainability:** Click **"Why did Reroute flag this?"** to inspect the source policy citation and confidence metrics.
-7. **Resolution:** Click **Confirm 14 July 1998 (Matches Aadhaar)**.
-8. **In-Place Recovery:** Re-verification clears the conflict instantly without any data loss.
-9. **Risk Screening:** Transparent Risk Score: 42/100 (Medium).
-10. **Human Review Packet:** Completion screen confirms dossier assembled for human claims officer.
-11. **Telemetry Telemetry (`/dashboard`):** Real-time conversion funnel and 41% step-reduction matrix.
+Judges can execute this exact sequence to experience the product differentiator without external API dependencies:
+
+1. **Open ReRoute:** Visit `http://localhost:3000` (or demo URL).
+2. **Review the Hero:** Observe the headline *"Financial journeys shouldn't feel like a maze"* and the live case preview (`CASE #R-1024`).
+3. **Start Journey:** Click **START A JOURNEY** (routes to `/journey`).
+4. **Goal Intake:** Customer enters *"I want to claim my hospital expenses for appendicitis surgery."* Click **CONTINUE WITH GOAL →**.
+5. **Entitlement Check:** Journey identifies Health Insurance Claim under Policy `POL-2026-1024` with ₹5,00,000 active coverage.
+6. **Evidence Collection:** Synthetic documents loaded: Policy Schedule, Hospital Bill, Discharge Summary, and Photo ID.
+7. **Document Intelligence Extraction:** OCR character confidence extracted across all medical and financial fields.
+8. **Discrepancy Detection:** Verification highlights Date of Birth conflict: Policy recorded `14/07/1998` vs Hospital recorded `17/07/1998`.
+9. **Explainability Modal:** Click **"Why did ReRoute flag this?"** to inspect the root cause: *"Critical identity information must remain consistent across claims and policy records."*
+10. **The Reroute Moment:** ReRoute activates the in-place `ReroutePanel` (`CURRENT STATE: Verification blocked`, `ISSUE: DOB mismatch`, `CONFIDENCE: 92%`).
+11. **Customer Resolution:** Customer confirms `14/07/1998 (Matches Aadhaar & Policy)`.
+12. **In-Place Recovery:** Re-verification succeeds immediately without document re-upload or restarting the claim.
+13. **Risk Intelligence & Traceable Arithmetic:** Risk score displays deterministic arithmetic:
+    - `DOB mismatch`: `+35`
+    - `Amount anomaly`: `+7`
+    - `Duplicate document`: `+0`
+    - `OCR quality`: `+0`
+    - `Claim frequency`: `+0`
+    - **Total:** `42 / 100 (Medium Risk)`
+14. **Human Review Governance:** Inspection dossier prepared under strict oversight: `AI DETECTS → AI EXPLAINS → REROUTE RECOMMENDS → HUMAN REVIEWS → HUMAN DECIDES → JOURNEY CONTINUES`.
+15. **Journey Completion:** Case summary assembled with clean audit trail and zero autonomous payout releases.
+16. **Telemetry Verification (`/dashboard`):** Inspect the operations dashboard showing 84.6% resolution rate, drop-off analysis, and synthetic benchmarks.
 
 ---
 
-## 8. Four Demo Scenarios (Using Demo Mode Switcher)
-Click the **DEMO MODE** pills at the top of the interface:
-- **01 · DOB Conflict (Default / Core Demo):** Staged discrepancy → in-place Reroute → user confirmation → resumption.
+## 8. Four Demo Scenarios (Demo Mode Switcher)
+Click the **DEMO MODE** switcher at the top of `/journey` for instant, leak-free scenario resets:
+- **01 · DOB Conflict (Default / Core Demo):** Staged discrepancy → in-place Reroute → customer confirmation → resumption.
 - **02 · Happy Path:** All 4 documents match; skips reroute and fast-tracks directly to review preparation.
 - **03 · Missing Evidence:** Discharge summary omitted; Reroute informs user exactly what is needed without rejection.
 - **04 · Risk Signal:** High-ticket claim (₹1,85,000) triggers elevated risk score (68/100) and automatic escalation to human adjudicator queue.
@@ -247,9 +258,10 @@ Click the **DEMO MODE** pills at the top of the interface:
 ---
 
 ## 9. AI Safety & Regulatory Compliance
-- **Zero Autonomous Financial Approvals:** Reroute coordinates, assists, and packages evidence; it does not autonomously approve, reject, underwrite, or disburse funds.
+- **Zero Autonomous Financial Approvals:** ReRoute coordinates, assists, and packages evidence; it does not autonomously approve, reject, underwrite, or disburse funds.
 - **Deterministic Guardrails:** Risk scoring and rerouting rules are deterministic, preventing probabilistic LLM hallucinations in critical paths.
-- **Synthetic Data Guarantee:** All names, policies, claim amounts, and hospital records are strictly fictional.
+- **Synthetic Data Guarantee:** All names, policies, claim amounts, and hospital records are strictly synthetic demo benchmarks.
+- **PII Protection:** Identifiers are masked (`VID: XXXX-XXXX-4912`); no live credentials or real national IDs are stored.
 
 ---
 
@@ -258,24 +270,39 @@ Click the **DEMO MODE** pills at the top of the interface:
 ```text
 ReRoute/
 ├── app/
-│   ├── page.tsx            # Neo-Brutalist Landing Page & Interactive Simulator
-│   ├── layout.tsx          # Root Layout & Global Metadata
-│   ├── globals.css         # Tailwind & Neo-brutalist styling utilities
+│   ├── page.tsx                    # Composition-only Landing Page
+│   ├── layout.tsx                  # Root Layout & Metadata
+│   ├── globals.css                 # Tailwind & Neo-brutalist styling utilities
 │   ├── journey/
-│   │   └── page.tsx        # Interactive Customer Journey Engine & State Machine
+│   │   └── page.tsx                # Customer Journey Engine & State Machine
 │   ├── dashboard/
-│   │   └── page.tsx        # Journey Intelligence & Funnel Telemetry
+│   │   └── page.tsx                # Journey Intelligence & Funnel Telemetry
 │   ├── risk/
-│   │   └── page.tsx        # Risk Intelligence Screening Dashboard
+│   │   └── page.tsx                # Risk Intelligence & Traceable Scoring
 │   └── review/
-│       └── page.tsx        # Human Review Dossier & Officer Controls
+│       └── page.tsx                # Human Review Dossier & Officer Controls
 ├── components/
-│   ├── navbar.tsx          # Responsive Header with Route Links & Badges
-│   ├── demo-banner.tsx     # Scenario Switcher Bar (4 Scenarios)
-│   ├── explainability-modal.tsx # "Why?" Explainable AI Panel
-│   ├── evidence-modal.tsx  # Document Scan & OCR Viewer
+│   ├── navbar.tsx                  # Responsive Navigation Header
+│   ├── demo-banner.tsx             # 4-Scenario Instant Switcher
+│   ├── explainability-modal.tsx     # Standardized Explainability Modal
+│   ├── evidence-modal.tsx          # Structured Field Evidence Inspector
+│   ├── landing-interactive-suite.tsx # Interactive Friction Sandbox
+│   ├── marketing/                  # Modular Landing Page Architecture
+│   │   ├── hero-section.tsx
+│   │   ├── live-case-preview.tsx
+│   │   ├── journey-pipeline.tsx
+│   │   ├── problem-section.tsx
+│   │   ├── reroute-section.tsx
+│   │   ├── intelligence-section.tsx
+│   │   ├── human-oversight-section.tsx
+│   │   ├── friction-section.tsx
+│   │   └── footer.tsx
+│   ├── ui/
+│   │   └── brutalist-card.tsx      # Standardized Neo-brutalist Card System
 │   └── journey/
 │       ├── journey-sidebar.tsx
+│       ├── journey-context-panel.tsx
+│       ├── reroute-panel.tsx       # Reusable Signature Reroute UI
 │       ├── goal-step.tsx
 │       ├── policy-step.tsx
 │       ├── upload-step.tsx
@@ -283,28 +310,17 @@ ReRoute/
 │       ├── verification-step.tsx
 │       ├── conflict-reroute-step.tsx
 │       ├── risk-step.tsx
-│       └── completion-step.tsx
+│       ├── completion-step.tsx
+│       └── interactive-journey-sandbox.tsx
 ├── lib/
-│   ├── types.ts            # Complete TypeScript Domain Interfaces
-│   ├── reroute-engine.ts   # Deterministic Reroute & Safe Next Action Logic
-│   ├── risk-engine.ts      # Transparent Risk Intelligence & Anomaly Scoring
-│   └── synthetic-data.ts   # Pre-populated Demo Scenarios & Knowledge Bases
+│   ├── types.ts                    # TypeScript Domain Interfaces & Types
+│   ├── reroute-engine.ts           # Deterministic Reroute & Safe Next Action Logic
+│   ├── risk-engine.ts              # Risk Intelligence with Arithmetic Breakdown
+│   └── synthetic-data.ts           # Pre-populated Demo Scenarios & Knowledge Bases
 ├── data/
-│   ├── policies/           # Markdown Policy & Verification Specifications
-│   └── synthetic/          # JSON Datasets (customers, journeys, claims, analytics)
-├── docs/
-│   ├── PRODUCT.md          # Product Vision & Competitive Differentiation
-│   ├── ARCHITECTURE.md     # Multi-layer Architecture & Principles
-│   ├── JOURNEY_FLOW.md     # State Transitions & Step-by-Step Flow
-│   ├── WORKFLOW.md         # Complete End-to-End Sequence & Workflows
-│   ├── TOOLS.md            # Detailed Catalog of Tools & Open-Source Repos
-│   ├── DOCUMENT_STRUCTURE.md # Synthetic Document Schemas & OCR Taxonomies
-│   ├── REROUTE_ENGINE.md   # Reroute Service Contract & Action Taxonomy
-│   ├── RISK_ENGINE.md      # Risk Scoring Formulations & Anomaly Weights
-│   ├── DATA_MODEL.md       # TypeScript & Database Entity Schemas
-│   ├── API.md              # REST API Specification
-│   ├── DEMO.md             # 2-3 Minute Hackathon Demo Script
-│   └── LIMITATIONS.md      # Responsible AI Boundaries
+│   ├── policies/                   # Markdown Policy & Verification Specifications
+│   └── synthetic/                  # JSON Datasets (customers, journeys, claims, analytics)
+├── docs/                           # Architecture, Flow & Product Specifications
 └── package.json
 ```
 

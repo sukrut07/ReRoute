@@ -14,7 +14,7 @@ When a customer encounters a discrepancy or missing document, Reroute does not a
 ## 2. Target Personas
 1. **The Stressed Claimant (End-User):** Needs to claim ₹84,500 for an inpatient hospital stay. Stressed about money, confused by policy terms, and terrified of entering the wrong date and getting rejected.
 2. **The Claims Adjudicator (Human Officer):** Overwhelmed with thousands of applications; spends 70% of time verifying routine dates and asking claimants for missing discharge summaries. Needs pre-verified, clean dossiers.
-3. **Fintech Operations Lead:** Wants to reduce the 38% drop-off rate, eliminate repetitive customer service calls, and improve NPS without compromising compliance.
+3. **Fintech Operations Lead:** Wants to reduce journey drop-offs, eliminate repetitive customer service calls, and improve NPS without compromising compliance.
 
 ---
 

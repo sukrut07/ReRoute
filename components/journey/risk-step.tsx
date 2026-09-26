@@ -79,8 +79,55 @@ export function RiskStep({ assessment, onContinue, onOpenExplain }: RiskStepProp
           </div>
         </div>
 
-        {/* Signals Breakdown */}
-        <div className="mt-5 rounded border border-[#111111] bg-white p-4">
+        {/* Traceable Risk Calculation Breakdown (Section 12) */}
+        <div className="mt-5 rounded border border-[#111111] bg-[#F7F6F2] p-4">
+          <div className="flex items-center justify-between border-b border-[#111111] pb-2">
+            <span className="mono text-xs font-black uppercase text-[#111111]">
+              DETERMINISTIC SCORE BREAKDOWN (TRACEABLE ARITHMETIC)
+            </span>
+            <span className="mono text-[10px] font-bold text-[#666666]">
+              ENGINE RULE WEIGHTS
+            </span>
+          </div>
+          <div className="mt-3 divide-y divide-neutral-200">
+            {(assessment.breakdown && assessment.breakdown.length > 0
+              ? assessment.breakdown
+              : [
+                  { category: "DOB mismatch", label: "Identity variance", points: 35 },
+                  { category: "Amount anomaly", label: "Clinical variance", points: 7 },
+                  { category: "Duplicate document", label: "Registry check", points: 0 },
+                  { category: "OCR quality", label: "Confidence check", points: 0 },
+                  { category: "Claim frequency", label: "Frequency check", points: 0 },
+                ]
+            ).map((item) => (
+              <div
+                key={item.category}
+                className="flex items-center justify-between py-2 text-xs"
+              >
+                <div>
+                  <span className="font-bold text-[#111111]">{item.category}</span>
+                  <span className="ml-2 text-[11px] text-[#666666] hidden sm:inline">
+                    ({item.label})
+                  </span>
+                </div>
+                <span
+                  className={`mono font-black ${
+                    item.points > 0 ? "text-[#D9414B]" : "text-[#666666]"
+                  }`}
+                >
+                  +{item.points}
+                </span>
+              </div>
+            ))}
+            <div className="flex items-center justify-between pt-2.5 text-xs font-black text-[#111111]">
+              <span className="mono uppercase">TOTAL SCORE</span>
+              <span className="mono text-sm">{assessment.score} / 100</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Observed Signals */}
+        <div className="mt-4 rounded border border-[#111111] bg-white p-4">
           <span className="mono text-xs font-black uppercase text-[#111111]">
             OBSERVED SIGNALS ({assessment.signals.length})
           </span>
