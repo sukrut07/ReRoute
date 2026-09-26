@@ -20,119 +20,119 @@ export function CompletionStep({
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <div className="mono mb-2 inline-flex items-center gap-2 border border-black bg-[#54e38e] px-2.5 py-1 text-xs font-black uppercase text-black">
-          <Sparkles size={13} />
+        <div className="mono mb-2 inline-flex items-center gap-2 rounded border border-[#111111] bg-[#20C979] px-2.5 py-0.5 text-xs font-black uppercase text-[#111111]">
+          <Sparkles size={13} strokeWidth={2.5} />
           JOURNEY FINALIZED · 100% COMPLETE
         </div>
-        <h2 className="text-3xl font-black tracking-tight text-[#101010] sm:text-4xl">
-          Your journey is complete.
+        <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#111111]">
+          Journey execution complete.
         </h2>
-        <p className="mt-2 text-sm text-neutral-600">
-          All evidence has been collected, discrepancies resolved via Reroute, and the case dossier has been prepared for authorized final review.
+        <p className="mt-1 text-sm text-[#666666]">
+          All evidence has been collected, discrepancies reconciled via ReRoute, and the case dossier has been prepared for authorized review.
         </p>
       </div>
 
       {/* Completion Card */}
-      <div className="brutal-border brutal-shadow bg-[#fffef8] p-6 sm:p-8">
-        <div className="flex flex-wrap items-center justify-between border-b-2 border-black pb-5">
+      <div className="rounded-lg border border-[#111111] bg-white p-5 sm:p-7 shadow-[3px_3px_0px_#111111]">
+        <div className="flex flex-wrap items-center justify-between border-b border-[#111111] pb-4 gap-3">
           <div>
-            <span className="mono text-xs font-bold uppercase text-neutral-500">
+            <span className="mono text-[10px] font-bold uppercase text-[#666666]">
               CASE REFERENCE
             </span>
-            <h3 className="text-2xl font-black text-[#101010]">{journeyId}</h3>
-            <p className="mono text-xs text-neutral-600">Claim ID: {claimId} · Claimant: {customerName}</p>
+            <h3 className="text-2xl font-black text-[#111111]">{journeyId}</h3>
+            <p className="mono text-xs text-[#666666]">Claim ID: {claimId} · Claimant: {customerName}</p>
           </div>
 
-          <div className="border-2 border-black bg-[#e7f9ee] px-4 py-2 text-right">
-            <span className="mono block text-[10px] uppercase text-neutral-500">
+          <div className="rounded border border-[#111111] bg-[#DDF8EA] px-3.5 py-1.5 text-right">
+            <span className="mono block text-[10px] uppercase text-[#666666]">
               CURRENT STATUS
             </span>
-            <span className="text-sm font-black text-emerald-800">
-              Ready for final human review
+            <span className="text-xs sm:text-sm font-black text-[#111111]">
+              Ready for final human decision
             </span>
           </div>
         </div>
 
         {/* Verification Checklist */}
-        <div className="mt-6 space-y-3">
-          <div className="flex items-center gap-3 border-2 border-black bg-white p-3.5">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#54e38e] text-black">
-              <Check size={14} strokeWidth={3} />
+        <div className="mt-5 space-y-2.5">
+          <div className="flex items-center gap-3 rounded border border-neutral-200 bg-[#F7F6F2] p-3">
+            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#20C979] text-[#111111]">
+              <Check size={12} strokeWidth={3} />
             </div>
             <div>
-              <p className="text-sm font-black text-[#101010]">All 4 Required Documents Verified</p>
-              <p className="text-xs text-neutral-500">Policy Schedule, Hospital Invoice, Discharge Summary, Identity Card</p>
+              <p className="text-xs font-black text-[#111111]">All 4 Required Documents Verified</p>
+              <p className="text-[11px] text-[#666666]">Policy Schedule, Hospital Invoice, Discharge Summary, Identity Card</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 border-2 border-black bg-white p-3.5">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#54e38e] text-black">
-              <Check size={14} strokeWidth={3} />
+          <div className="flex items-center gap-3 rounded border border-neutral-200 bg-[#F7F6F2] p-3">
+            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#20C979] text-[#111111]">
+              <Check size={12} strokeWidth={3} />
             </div>
             <div>
-              <p className="text-sm font-black text-[#101010]">Date of Birth Discrepancy Resolved via Reroute</p>
-              <p className="text-xs text-neutral-500">Confirmed matching UIDAI Aadhaar record without restarting the application</p>
+              <p className="text-xs font-black text-[#111111]">Date of Birth Discrepancy Resolved via ReRoute</p>
+              <p className="text-[11px] text-[#666666]">Confirmed matching official policy record without restarting the application</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 border-2 border-black bg-white p-3.5">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#54e38e] text-black">
-              <Check size={14} strokeWidth={3} />
+          <div className="flex items-center gap-3 rounded border border-neutral-200 bg-[#F7F6F2] p-3">
+            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#20C979] text-[#111111]">
+              <Check size={12} strokeWidth={3} />
             </div>
             <div>
-              <p className="text-sm font-black text-[#101010]">Synthetic Risk Screening Completed</p>
-              <p className="text-xs text-neutral-500">Risk Score 42/100 (Medium) — Queued for routine verification officer review</p>
+              <p className="text-xs font-black text-[#111111]">Deterministic Risk Screening Completed</p>
+              <p className="text-[11px] text-[#666666]">Risk Score 42/100 (Medium) — Queued for routine claims officer review</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 border-2 border-black bg-white p-3.5">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#54e38e] text-black">
-              <Check size={14} strokeWidth={3} />
+          <div className="flex items-center gap-3 rounded border border-neutral-200 bg-[#F7F6F2] p-3">
+            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#20C979] text-[#111111]">
+              <Check size={12} strokeWidth={3} />
             </div>
             <div>
-              <p className="text-sm font-black text-[#101010]">Review Package Prepared for Adjudicator</p>
-              <p className="text-xs text-neutral-500">Includes extracted entities, audit trail, confidence scores, and customer confirmation</p>
+              <p className="text-xs font-black text-[#111111]">Review Package Prepared for Adjudicator</p>
+              <p className="text-[11px] text-[#666666]">Includes extracted entities, audit trail, confidence scores, and customer confirmation</p>
             </div>
           </div>
         </div>
 
         {/* Responsible AI Disclaimer Banner */}
-        <div className="mt-6 border-2 border-black bg-neutral-100 p-4 text-xs">
-          <div className="flex items-center gap-2 font-bold text-neutral-900">
-            <ShieldCheck size={16} className="text-emerald-700" />
+        <div className="mt-5 rounded border border-dashed border-neutral-400 bg-[#F7F6F2] p-3 text-xs">
+          <div className="flex items-center gap-1.5 font-bold text-[#111111]">
+            <ShieldCheck size={14} className="text-[#20C979]" />
             <span>RESPONSIBLE AI GUARANTEE</span>
           </div>
-          <p className="mt-1 leading-relaxed text-neutral-600">
-            Reroute does not provide autonomous financial approval, underwriting, or claim settlement. Reroute coordinates and assists the journey, ensuring the case is 100% prepared for human decision-makers with zero missing evidence.
+          <p className="mt-1 leading-relaxed text-[11px] text-[#666666]">
+            ReRoute does not make autonomous financial denials or final settlements. ReRoute coordinates and assists the journey, ensuring the case is 100% prepared for human decision-makers with zero missing evidence.
           </p>
         </div>
 
         {/* Action Buttons */}
-        <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t-2 border-black pt-5">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[#111111] pt-4">
           <button
             onClick={onRestart}
-            className="mono brutal-btn flex items-center gap-2 bg-white px-4 py-2.5 text-xs font-bold hover:bg-neutral-100"
+            className="mono flex items-center gap-1.5 rounded border border-[#111111] bg-white px-3.5 py-2 text-xs font-bold text-[#111111] shadow-[1px_1px_0px_#111111] hover:bg-neutral-100"
           >
-            <RotateCcw size={14} />
+            <RotateCcw size={13} />
             <span>Reset Demo Journey</span>
           </button>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             <Link
               href="/review"
-              className="brutal-btn flex items-center gap-2 bg-black px-5 py-2.5 text-xs font-black text-[#54e38e] hover:bg-neutral-800"
+              className="mono inline-flex items-center gap-1.5 rounded border border-[#111111] bg-[#111111] px-4 py-2 text-xs font-black text-white shadow-[2px_2px_0px_#111111] transition-transform hover:-translate-y-0.5 hover:bg-[#333333]"
             >
-              <FileText size={14} />
+              <FileText size={13} />
               <span>INSPECT IN HUMAN REVIEW QUEUE</span>
-              <ExternalLink size={13} />
+              <ExternalLink size={12} />
             </Link>
 
             <Link
               href="/dashboard"
-              className="brutal-btn flex items-center gap-2 bg-[#54e38e] px-5 py-2.5 text-xs font-black text-black hover:bg-[#40d27c]"
+              className="mono inline-flex items-center gap-1.5 rounded border border-[#111111] bg-[#20C979] px-4 py-2 text-xs font-black text-[#111111] shadow-[2px_2px_0px_#111111] transition-transform hover:-translate-y-0.5 hover:bg-[#1bb36d]"
             >
               <span>VIEW JOURNEY ANALYTICS</span>
-              <ArrowRight size={14} />
+              <ArrowRight size={13} strokeWidth={2.5} />
             </Link>
           </div>
         </div>

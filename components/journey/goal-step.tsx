@@ -20,9 +20,9 @@ export function GoalStep({ initialGoal, onConfirmGoal }: GoalStepProps) {
   return (
     <div className="space-y-6">
       {/* Goal Entry Card */}
-      <div className="rounded-lg border-2 border-[#101010] bg-white p-6 sm:p-8 shadow-[4px_4px_0px_#101010]">
-        <label className="mono block text-xs font-black uppercase tracking-wider text-[#555555]">
-          WHAT ARE YOU TRYING TO DO?
+      <div className="rounded-lg border border-[#111111] bg-white p-6 sm:p-7 shadow-[3px_3px_0px_#111111]">
+        <label className="mono block text-xs font-black uppercase tracking-wider text-[#666666]">
+          WHAT ARE YOU TRYING TO ACCOMPLISH?
         </label>
 
         <form onSubmit={handleSubmit} className="mt-3">
@@ -31,23 +31,23 @@ export function GoalStep({ initialGoal, onConfirmGoal }: GoalStepProps) {
             onChange={(e) => setGoalText(e.target.value)}
             rows={3}
             placeholder="I want to claim my hospital expenses."
-            className="w-full rounded-md border-2 border-[#101010] bg-[#FAF9F5] p-4 text-base font-bold text-[#101010] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#20C77A]"
+            className="w-full rounded border border-[#111111] bg-[#F7F6F2] p-3.5 text-sm font-bold text-[#111111] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#20C979]"
           />
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-wrap items-center gap-2 mono text-xs text-[#555555]">
-              <span>Quick tests:</span>
+            <div className="flex flex-wrap items-center gap-2 mono text-xs text-[#666666]">
+              <span>Sample goals:</span>
               <button
                 type="button"
                 onClick={() => setGoalText("I want to claim my hospital expenses for surgery.")}
-                className="rounded border border-neutral-300 bg-neutral-100 px-2 py-0.5 hover:border-black"
+                className="rounded border border-neutral-300 bg-[#F7F6F2] px-2 py-0.5 hover:border-[#111111] hover:text-[#111111]"
               >
                 Hospital Expenses
               </button>
               <button
                 type="button"
-                onClick={() => setGoalText("I need to claim cashless reimbursement for my clinic stay.")}
-                className="rounded border border-neutral-300 bg-neutral-100 px-2 py-0.5 hover:border-black"
+                onClick={() => setGoalText("I need to claim reimbursement for my inpatient clinic stay.")}
+                className="rounded border border-neutral-300 bg-[#F7F6F2] px-2 py-0.5 hover:border-[#111111] hover:text-[#111111]"
               >
                 Inpatient Stay
               </button>
@@ -55,10 +55,10 @@ export function GoalStep({ initialGoal, onConfirmGoal }: GoalStepProps) {
 
             <button
               type="submit"
-              className="brutal-btn inline-flex items-center gap-2 bg-[#20C77A] px-5 py-2.5 text-xs font-black text-[#101010] hover:bg-[#1bb36d]"
+              className="mono inline-flex items-center gap-2 rounded border border-[#111111] bg-[#20C979] px-4 py-2 text-xs font-black text-[#111111] shadow-[2px_2px_0px_#111111] transition-transform hover:-translate-y-0.5 hover:bg-[#1bb36d]"
             >
               <span>IDENTIFY JOURNEY</span>
-              <ArrowRight size={14} />
+              <ArrowRight size={13} strokeWidth={2.5} />
             </button>
           </div>
         </form>
@@ -66,44 +66,44 @@ export function GoalStep({ initialGoal, onConfirmGoal }: GoalStepProps) {
 
       {/* Identified Journey Details */}
       {isIdentified && (
-        <div className="rounded-lg border-2 border-[#101010] bg-[#FAF9F5] p-6 shadow-[4px_4px_0px_#101010]">
-          <div className="flex items-center justify-between border-b border-neutral-300 pb-3">
+        <div className="rounded-lg border border-[#111111] bg-[#F7F6F2] p-5 sm:p-6 shadow-[3px_3px_0px_#111111]">
+          <div className="flex items-center justify-between border-b border-[#111111] pb-3">
             <div>
-              <span className="mono text-[10px] font-black uppercase text-[#555555]">
-                JOURNEY IDENTIFIED
+              <span className="mono text-[10px] font-black uppercase text-[#666666]">
+                GOAL INTENT CLASSIFIED
               </span>
-              <h3 className="text-xl font-black text-[#101010]">Health Insurance Claim</h3>
+              <h3 className="text-xl font-black text-[#111111]">Health Insurance Claim</h3>
             </div>
-            <span className="mono rounded border border-[#101010] bg-[#20C77A] px-2.5 py-1 text-xs font-black text-[#101010]">
+            <span className="mono rounded border border-[#111111] bg-[#DDF8EA] px-2.5 py-0.5 text-xs font-black text-[#111111]">
               CONFIDENCE 99%
             </span>
           </div>
 
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mono text-xs">
-            <div className="rounded border border-[#101010] bg-white p-3">
-              <span className="text-[10px] text-[#777777] uppercase">JOURNEY TYPE</span>
-              <p className="font-bold text-[#101010] mt-0.5">Medical Reimbursement</p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mono text-xs">
+            <div className="rounded border border-[#111111] bg-white p-3">
+              <span className="text-[10px] text-[#666666] uppercase">JOURNEY TYPE</span>
+              <p className="font-bold text-[#111111] mt-0.5">Medical Reimbursement</p>
             </div>
-            <div className="rounded border border-[#101010] bg-white p-3">
-              <span className="text-[10px] text-[#777777] uppercase">REQUIRED STAGES</span>
-              <p className="font-bold text-[#101010] mt-0.5">6 Progressive Steps</p>
+            <div className="rounded border border-[#111111] bg-white p-3">
+              <span className="text-[10px] text-[#666666] uppercase">REQUIRED STAGES</span>
+              <p className="font-bold text-[#111111] mt-0.5">6 Progressive Steps</p>
             </div>
-            <div className="rounded border border-[#101010] bg-white p-3">
-              <span className="text-[10px] text-[#777777] uppercase">INITIAL STATE</span>
-              <p className="font-bold text-[#101010] mt-0.5">Policy Attached</p>
+            <div className="rounded border border-[#111111] bg-white p-3">
+              <span className="text-[10px] text-[#666666] uppercase">INITIAL STATE</span>
+              <p className="font-bold text-[#111111] mt-0.5">Policy Attached</p>
             </div>
-            <div className="rounded border border-[#101010] bg-white p-3">
-              <span className="text-[10px] text-[#777777] uppercase">CUSTOMER CONTEXT</span>
-              <p className="font-bold text-[#101010] mt-0.5">Sukrut Dusane · POL-1024</p>
+            <div className="rounded border border-[#111111] bg-white p-3">
+              <span className="text-[10px] text-[#666666] uppercase">CUSTOMER CONTEXT</span>
+              <p className="font-bold text-[#111111] mt-0.5">Sukrut Dusane · POL-1024</p>
             </div>
           </div>
 
-          <div className="mt-6 flex justify-end">
+          <div className="mt-5 flex justify-end">
             <button
               onClick={() => onConfirmGoal(goalText)}
-              className="brutal-btn inline-flex items-center gap-2 bg-[#20C77A] px-6 py-3 text-xs font-black text-[#101010] hover:bg-[#1bb36d]"
+              className="mono inline-flex items-center gap-2 rounded border border-[#111111] bg-[#20C979] px-5 py-2.5 text-xs font-black text-[#111111] shadow-[2px_2px_0px_#111111] transition-transform hover:-translate-y-0.5 hover:bg-[#1bb36d]"
             >
-              <span>START JOURNEY →</span>
+              <span>CONFIRM & PROCEED →</span>
             </button>
           </div>
         </div>

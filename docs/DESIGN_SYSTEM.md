@@ -1,12 +1,12 @@
 # Reroute Design System: Minimal Neo-Brutalist Fintech AI System
 
 ## 1. Visual Philosophy & Direction
-Reroute adopts a **clean neo-brutalist fintech design language** balancing high-contrast editorial discipline with structured engineering precision (inspired by contemporary interfaces like Tracera and Pressera).
+Reroute adopts a **clean, minimal neo-brutalist fintech design language** balancing high-contrast editorial discipline with structured engineering precision (inspired by contemporary technical products such as Tracera-style dashboards).
 
-- **Editorial & Structured**: Explicit grid alignments, prominent uppercase monospace metadata, disciplined spacing.
-- **Confident & Trustworthy**: Strong borders and hard controlled depth rather than blurry soft shadows or chaotic gradients.
+- **Editorial & Structured**: Explicit grid alignments, prominent uppercase monospace metadata, disciplined spacing (8px, 12px, 16px, 24px, 32px, 48px, 64px).
+- **Confident & Trustworthy**: Strong black borders and hard controlled depth (`3px 3px 0px #111111`) rather than blurry soft shadows or chaotic gradients.
 - **Fintech Utility First**: Designed for financial journey orchestration with real-time evidence inspection and in-place recovery.
-- **Restrained Motion**: Subtle micro-interactions only; disabled automatically under `prefers-reduced-motion`.
+- **Restrained Motion**: Subtle micro-interactions only (150–250ms smooth easing); disabled automatically under `prefers-reduced-motion`.
 
 ---
 
@@ -14,14 +14,14 @@ Reroute adopts a **clean neo-brutalist fintech design language** balancing high-
 
 | Token | Hex Value | Semantic Role |
 | :--- | :--- | :--- |
-| **Canvas Background** | `#F5F3EE` | Warm, off-white technical paper background |
-| **Surface Card** | `#FFFFFF` / `#FAF9F5` | Off-white / crisp white bordered panels |
-| **Primary Ink** | `#101010` | High-contrast text, borders, headers |
-| **Secondary Ink** | `#555555` | Supporting descriptions, metadata keys |
-| **Primary Accent** | `#20C77A` | Vivid fintech green: Verified states, primary action CTA, success |
-| **Secondary Accent** | `#6F5CFF` | Electric violet: Optional secondary system emphasis |
-| **Warning / Attention** | `#F2A900` | Amber gold: Conflicts requiring customer confirmation, medium risk |
-| **Danger / Blocker** | `#E85C65` | Crimson: Mismatch alerts, blocked validation |
+| **Canvas Background** | `#F7F6F2` | Warm off-white technical paper background |
+| **Surface Card** | `#FFFFFF` | Crisp white bordered panels |
+| **Primary Ink** | `#111111` | High-contrast text, borders, headers |
+| **Secondary Ink** | `#666666` | Supporting descriptions, metadata keys |
+| **Primary Green** | `#20C979` | Active state, verified, progress, primary CTA, system intelligence |
+| **Light Green** | `#DDF8EA` | Verified pills, completed highlight panels |
+| **Warning / Attention** | `#D97706` / `#FEF3C7` | Amber: Conflicts requiring customer confirmation, medium risk |
+| **Danger / Blocker** | `#D9414B` / `#FEE2E2` | Muted red: Mismatch alerts, blocked validation, high severity |
 
 ---
 
@@ -34,7 +34,7 @@ Reroute adopts a **clean neo-brutalist fintech design language** balancing high-
 Uppercase monospace tags are strictly required for:
 - Case IDs (e.g., `CASE #R-1024`)
 - Journey step markers (e.g., `STEP 4 / 6`)
-- System state diagnostics (e.g., `CURRENT STATE: Verification blocked`)
+- System state diagnostics (e.g., `CURRENT STATE: Verification held`)
 - Confidence ratings (e.g., `CONFIDENCE 96%`)
 - Timestamps and policy rule citations (e.g., `VER-RULE-2026-V1`)
 
@@ -42,13 +42,13 @@ Uppercase monospace tags are strictly required for:
 
 ## 4. Structural Grid & Shadows
 
-- **Desktop Layout**: 12-column responsive grid container with max-width `1440px`.
-- **Borders**: Crisp `2px solid #101010` (or `1px` subtle divider borders).
-- **Corner Radii**: Controlled `8px–14px` (`rounded-md` / `rounded-lg`). Large bubble radiuses (`25px+`) are prohibited.
+- **Desktop Layout**: Max-width `1200–1320px` centered container.
+- **Borders**: Crisp `1px–2px solid #111111`.
+- **Corner Radii**: Controlled `8px–10px` (`rounded-lg`). Large bubble radiuses (`25px+`) are prohibited.
 - **Shadows**: Hard-offset offset shadows:
-  - Standard Card: `box-shadow: 4px 4px 0px #101010;`
-  - Small Badge / Button: `box-shadow: 2px 2px 0px #101010;`
-  - Accent Button Hover: `box-shadow: 5px 5px 0px #101010;` with `-1px, -1px` translation.
+  - Standard Card: `box-shadow: 3px 3px 0px #111111;`
+  - Small Badge / Button: `box-shadow: 2px 2px 0px #111111;`
+  - Accent Button Hover: `-2px, -2px` translation with shadow adjustment.
 
 ---
 
@@ -58,12 +58,6 @@ Uppercase monospace tags are strictly required for:
    - `REROUTE REQUIRED` banner with amber attention badge.
    - Diagnostic metadata grid: Current State, Issue, Evidence sources, Confidence.
    - Next safe action callout.
-   - Side-by-side discrepancy cards with clear user choice (`USE POLICY VALUE`, `USE DOCUMENT VALUE`, `REQUEST HUMAN REVIEW`).
-   - Reassurance reassurance banner: `"YOUR JOURNEY WILL NOT RESTART."`
-
-2. **Explainability Drawer**:
-   - Slides out from the right on any `"WHY?"` click.
-   - Plain-language explanation, policy clause quotation, confidence gauge, and next safe action.
-
-3. **Journey Rail**:
-   - Sequential progress indicators (`✓ Goal`, `✓ Policy`, `✓ Claim Details`, `● Documents`, `○ Verification`, `○ Completion`).
+   - Side-by-side discrepancy comparator with highlighted values.
+   - Recovery actions: `USE POLICY VALUE`, `USE DOCUMENT VALUE`, `REQUEST HUMAN REVIEW`.
+   - Continuous context guarantee: *"Your progress is fully preserved."*

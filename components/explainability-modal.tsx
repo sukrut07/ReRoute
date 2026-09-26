@@ -12,87 +12,87 @@ export function ExplainabilityModal({ context, onClose }: ExplainabilityDrawerPr
   if (!context) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-xs">
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/40">
       {/* Backdrop click to dismiss */}
       <div className="flex-1" onClick={onClose} />
 
       {/* Right-Side Drawer */}
-      <aside className="relative flex h-full w-full max-w-md flex-col justify-between border-l-2 border-[#101010] bg-[#FAF9F5] p-6 text-[#101010] shadow-[-6px_0px_0px_#101010] sm:p-7 overflow-y-auto">
+      <aside className="relative flex h-full w-full max-w-md flex-col justify-between border-l border-[#111111] bg-[#F7F6F2] p-5 sm:p-6 text-[#111111] shadow-[-4px_0px_0px_#111111] overflow-y-auto">
         <div>
           {/* Header */}
-          <div className="flex items-start justify-between border-b-2 border-[#101010] pb-4">
+          <div className="flex items-start justify-between border-b border-[#111111] pb-3.5">
             <div>
-              <span className="mono text-[10px] font-black uppercase tracking-wider text-[#555555]">
+              <span className="mono text-[10px] font-black uppercase tracking-wider text-[#666666]">
                 EXPLAINABLE AI DRAWER
               </span>
-              <h3 className="text-xl font-black text-[#101010] mt-1">
+              <h3 className="text-lg font-black text-[#111111] mt-0.5">
                 WHY WAS THIS FLAGGED?
               </h3>
             </div>
             <button
               onClick={onClose}
-              className="flex h-8 w-8 items-center justify-center rounded border-2 border-[#101010] bg-white text-[#101010] hover:bg-neutral-100"
+              className="flex h-7 w-7 items-center justify-center rounded border border-[#111111] bg-white text-[#111111] hover:bg-neutral-100"
               aria-label="Close Explainability Drawer"
             >
-              <X size={16} />
+              <X size={15} />
             </button>
           </div>
 
           {/* Rationale */}
-          <div className="mt-5 space-y-4 text-xs font-bold">
-            <div className="rounded border-2 border-[#101010] bg-white p-4">
-              <span className="mono text-[10px] font-black uppercase text-[#555555]">
-                RATIONALE
+          <div className="mt-4 space-y-3.5 text-xs">
+            <div className="rounded border border-[#111111] bg-white p-3.5">
+              <span className="mono text-[10px] font-black uppercase text-[#666666]">
+                EVALUATION RATIONALE
               </span>
-              <p className="mt-1 text-sm font-black text-[#101010] leading-snug">
+              <p className="mt-1 text-xs font-bold text-[#111111] leading-snug">
                 {context.summary || "Two sources contain different dates of birth."}
               </p>
             </div>
 
             {/* Sources */}
-            <div className="rounded border-2 border-[#101010] bg-white p-4">
-              <span className="mono text-[10px] font-black uppercase text-[#555555]">
-                SOURCES
+            <div className="rounded border border-[#111111] bg-white p-3.5">
+              <span className="mono text-[10px] font-black uppercase text-[#666666]">
+                DISCORDANT SOURCES
               </span>
               <div className="mt-2 space-y-1.5 mono">
-                <div className="flex items-center justify-between border-b border-neutral-200 pb-1">
-                  <span>Policy Schedule</span>
-                  <span className="text-[#20C77A]">POL-2026-1024</span>
+                <div className="flex items-center justify-between border-b border-neutral-100 pb-1">
+                  <span className="text-[#111111]">Policy Schedule</span>
+                  <span className="text-[#20C979] font-bold">POL-2026-1024</span>
                 </div>
                 <div className="flex items-center justify-between pt-1">
-                  <span>Hospital Bill</span>
-                  <span className="text-[#E85C65]">CityCare Invoice</span>
+                  <span className="text-[#111111]">Hospital Bill</span>
+                  <span className="text-[#D9414B] font-bold">CityCare Invoice</span>
                 </div>
               </div>
             </div>
 
             {/* Confidence & Next Action */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded border-2 border-[#101010] bg-white p-3">
-                <span className="mono text-[10px] font-black uppercase text-[#555555]">
+              <div className="rounded border border-[#111111] bg-white p-3">
+                <span className="mono text-[10px] font-black uppercase text-[#666666]">
                   CONFIDENCE
                 </span>
-                <p className="mono mt-1 text-2xl font-black text-[#20C77A]">
+                <p className="mono mt-1 text-2xl font-black text-[#20C979]">
                   {Math.round(context.confidence * 100)}%
                 </p>
-                <span className="mono text-[9px] text-[#555555]">High Precision</span>
+                <span className="mono text-[9px] text-[#666666]">Deterministic OCR</span>
               </div>
 
-              <div className="rounded border-2 border-[#101010] bg-white p-3">
-                <span className="mono text-[10px] font-black uppercase text-[#555555]">
-                  NEXT ACTION
+              <div className="rounded border border-[#111111] bg-white p-3">
+                <span className="mono text-[10px] font-black uppercase text-[#666666]">
+                  RECOMMENDED ACTION
                 </span>
-                <p className="mt-1 text-xs font-black text-[#101010] leading-tight">
+                <p className="mt-1 text-xs font-black text-[#111111] leading-tight">
                   Customer confirmation
                 </p>
-                <span className="mono text-[9px] text-[#20C77A]">In-Place Reroute</span>
+                <span className="mono text-[9px] text-[#20C979]">In-Place Reroute</span>
               </div>
             </div>
 
             {/* Regulatory Clause Citation */}
-            <div className="rounded border border-neutral-300 bg-white p-3 text-[11px] text-[#555555]">
-              <div className="flex items-center gap-1.5 text-black font-bold">
-                <ShieldCheck size={14} className="text-[#20C77A]" />
+            <div className="rounded border border-neutral-300 bg-white p-3 text-[11px] text-[#666666]">
+              <div className="flex items-center gap-1.5 text-[#111111] font-bold">
+                <ShieldCheck size={13} className="text-[#20C979]" />
                 <span>IRDAI KYC & Adjudication Rule #K-08</span>
               </div>
               <p className="mt-1 italic">
@@ -102,14 +102,13 @@ export function ExplainabilityModal({ context, onClose }: ExplainabilityDrawerPr
           </div>
         </div>
 
-        {/* Drawer Action */}
-        <div className="mt-6 border-t-2 border-[#101010] pt-4">
+        {/* Bottom Close */}
+        <div className="mt-5 border-t border-[#111111] pt-3.5">
           <button
             onClick={onClose}
-            className="brutal-btn flex w-full items-center justify-center gap-2 bg-[#20C77A] py-2.5 text-xs font-black text-[#101010] hover:bg-[#1bb36d]"
+            className="mono w-full rounded border border-[#111111] bg-[#111111] py-2 text-xs font-black text-white hover:bg-[#333333]"
           >
-            <span>DISMISS EXPLANATION</span>
-            <ArrowRight size={14} />
+            DISMISS EXPLANATION
           </button>
         </div>
       </aside>

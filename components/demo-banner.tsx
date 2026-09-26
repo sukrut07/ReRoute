@@ -1,7 +1,7 @@
 "use client";
 
 import { DemoScenarioId } from "@/lib/types";
-import { Sparkles, SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 
 interface DemoBannerProps {
   currentScenario: DemoScenarioId;
@@ -17,15 +17,15 @@ export function DemoBanner({ currentScenario, onSelectScenario }: DemoBannerProp
   ];
 
   return (
-    <div className="border-b-2 border-[#101010] bg-[#FAF9F5] px-4 py-2.5 sm:px-6">
+    <div className="border-b border-[#111111] bg-[#F7F6F2] px-4 py-2 sm:px-6">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2">
-          <span className="mono flex items-center gap-1.5 rounded border border-[#101010] bg-[#101010] px-2 py-0.5 font-bold uppercase text-[#20C77A]">
+          <span className="mono flex items-center gap-1.5 rounded border border-[#111111] bg-[#111111] px-2 py-0.5 font-bold uppercase text-[#20C979]">
             <SlidersHorizontal size={12} />
-            DEMO SCENARIO:
+            DEMO SCENARIOS:
           </span>
-          <span className="hidden text-[#555555] md:inline">
-            Select test scenarios to inspect live deterministic rerouting:
+          <span className="hidden text-[#666666] md:inline">
+            Deterministic live test benchmarks:
           </span>
         </div>
 
@@ -36,17 +36,17 @@ export function DemoBanner({ currentScenario, onSelectScenario }: DemoBannerProp
               <button
                 key={s.id}
                 onClick={() => onSelectScenario(s.id)}
-                className={`mono flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-bold transition-all ${
+                className={`mono flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-bold transition-all ${
                   isSelected
-                    ? "border-2 border-[#101010] bg-[#20C77A] text-[#101010] shadow-[2px_2px_0px_#101010]"
-                    : "border border-neutral-300 bg-white text-[#555555] hover:border-black hover:text-black"
+                    ? "border border-[#111111] bg-[#20C979] text-[#111111] shadow-[2px_2px_0px_#111111]"
+                    : "border border-neutral-300 bg-white text-[#666666] hover:border-[#111111] hover:text-[#111111]"
                 }`}
               >
                 <span>{s.label}</span>
                 {s.badge && (
                   <span
                     className={`rounded px-1 text-[9px] font-black uppercase ${
-                      isSelected ? "bg-[#101010] text-[#20C77A]" : "bg-neutral-100 text-neutral-600"
+                      isSelected ? "bg-[#111111] text-[#20C979]" : "bg-neutral-100 text-[#666666]"
                     }`}
                   >
                     {s.badge}

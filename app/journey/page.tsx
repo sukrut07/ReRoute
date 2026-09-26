@@ -226,36 +226,36 @@ export default function JourneyPage() {
       : 100;
 
   return (
-    <div className="min-h-screen bg-[#F5F3EE] text-[#101010]">
+    <div className="min-h-screen bg-[#F7F6F2] text-[#111111]">
       <Navbar />
       <DemoBanner
         currentScenario={currentScenario}
         onSelectScenario={handleSelectScenario}
       />
 
-      {/* Top Header & Progress Bar (Section 11) */}
-      <div className="border-b-2 border-[#101010] bg-white px-4 py-3 sm:px-6 lg:px-8">
+      {/* Top Header & Progress Bar */}
+      <div className="border-b border-[#111111] bg-white px-4 py-3 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <span className="mono rounded border border-[#101010] bg-[#FAF9F5] px-2 py-0.5 text-xs font-black text-[#101010]">
+            <span className="mono rounded border border-[#111111] bg-[#F7F6F2] px-2 py-0.5 text-xs font-black text-[#111111]">
               CASE #R-1024
             </span>
-            <h1 className="text-base sm:text-lg font-black text-[#101010]">
+            <h1 className="text-base sm:text-lg font-black text-[#111111]">
               HEALTH INSURANCE CLAIM
             </h1>
-            <span className="mono text-xs font-bold text-[#555555]">
+            <span className="mono text-xs font-bold text-[#666666]">
               STEP {getStepProgressNumber()} / 6
             </span>
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            <span className="mono text-xs font-black text-[#101010]">
+            <span className="mono text-xs font-black text-[#111111]">
               {progressPercent}% COMPLETE
             </span>
-            <div className="h-3 w-36 sm:w-48 rounded border-2 border-[#101010] bg-neutral-100 overflow-hidden">
+            <div className="h-2.5 w-36 sm:w-48 rounded border border-[#111111] bg-neutral-100 overflow-hidden">
               <div
                 className={`h-full transition-all duration-300 ${
-                  currentStepId === "reroute" ? "bg-[#F2A900]" : "bg-[#20C77A]"
+                  currentStepId === "reroute" ? "bg-[#D97706]" : "bg-[#20C979]"
                 }`}
                 style={{ width: `${progressPercent}%` }}
               />
@@ -264,24 +264,24 @@ export default function JourneyPage() {
         </div>
       </div>
 
-      {/* Section 21: Journey Memory Resume Banner */}
+      {/* Journey Memory Resume Banner */}
       {hasVisitedBefore && currentStepId === "reroute" && (
-        <div className="border-b-2 border-[#101010] bg-[#FFF8E7] px-4 py-2.5 sm:px-6">
+        <div className="border-b border-[#111111] bg-[#FEF3C7] px-4 py-2.5 sm:px-6">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-xs font-bold">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="mono rounded border border-[#101010] bg-[#101010] px-2 py-0.5 text-[10px] text-[#20C77A]">
+              <span className="mono rounded border border-[#111111] bg-[#111111] px-2 py-0.5 text-[10px] text-[#20C979]">
                 JOURNEY MEMORY
               </span>
-              <span>
+              <span className="text-[#111111]">
                 WELCOME BACK, {DEMO_CUSTOMER.name.toUpperCase()}. Your claim is 72% complete.
               </span>
-              <span className="hidden md:inline text-[#555555]">
+              <span className="hidden md:inline text-[#666666]">
                 ✓ Policy verified · ✓ Identity verified · ✓ Hospital verified · 1 action remaining.
               </span>
             </div>
             <button
               onClick={() => setCurrentStepId("reroute")}
-              className="mono brutal-btn bg-[#20C77A] px-3 py-1 text-xs font-black text-[#101010] hover:bg-[#1bb36d]"
+              className="mono rounded border border-[#111111] bg-[#20C979] px-3 py-1 text-xs font-black text-[#111111] shadow-[2px_2px_0px_#111111] hover:bg-[#1bb36d]"
             >
               CONTINUE JOURNEY →
             </button>

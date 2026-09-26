@@ -13,51 +13,51 @@ export function EvidenceModal({ document, highlightField, onClose }: EvidenceMod
   if (!document) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-      <div className="brutal-border brutal-shadow-lg relative flex max-h-[90vh] w-full max-w-2xl flex-col bg-[#fffef8] p-6 text-black sm:p-7">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+      <div className="relative flex max-h-[90vh] w-full max-w-2xl flex-col rounded-lg border border-[#111111] bg-white p-5 text-[#111111] shadow-[4px_4px_0px_#111111] sm:p-6">
         {/* Header */}
-        <div className="flex items-start justify-between border-b-2 border-black pb-4">
+        <div className="flex items-start justify-between border-b border-[#111111] pb-3.5">
           <div className="flex items-center gap-2.5">
-            <div className="brutal-border flex h-8 w-8 items-center justify-center bg-[#bcd8ff]">
-              <FileText size={18} className="text-black" />
+            <div className="flex h-8 w-8 items-center justify-center rounded border border-[#111111] bg-[#F7F6F2]">
+              <FileText size={16} className="text-[#111111]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="mono text-xs font-black uppercase tracking-wider text-[#101010]">
+                <span className="mono text-[10px] font-black uppercase tracking-wider text-[#666666]">
                   DOCUMENT EVIDENCE VIEWER
                 </span>
-                <span className="border border-black bg-[#e7f9ee] px-1.5 py-0.2 text-[10px] font-bold text-emerald-800">
+                <span className="mono rounded border border-[#111111] bg-[#DDF8EA] px-1.5 py-0.2 text-[10px] font-bold text-[#111111]">
                   {document.category}
                 </span>
               </div>
-              <h3 className="text-lg font-black leading-snug tracking-tight text-[#101010]">
+              <h3 className="text-base font-black leading-snug tracking-tight text-[#111111] mt-0.5">
                 {document.fileName}
               </h3>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="brutal-border flex h-8 w-8 items-center justify-center bg-white hover:bg-neutral-100"
+            className="flex h-7 w-7 items-center justify-center rounded border border-[#111111] bg-[#F7F6F2] hover:bg-neutral-200"
             aria-label="Close"
           >
-            <X size={16} />
+            <X size={15} />
           </button>
         </div>
 
         {/* Content */}
-        <div className="mt-4 flex-1 space-y-4 overflow-y-auto pr-1 text-sm">
+        <div className="mt-4 flex-1 space-y-3.5 overflow-y-auto pr-1 text-xs">
           {/* Document Simulated Canvas Scan */}
-          <div className="border-2 border-black bg-white p-4">
-            <div className="mb-2 flex items-center justify-between border-b pb-2 text-xs">
-              <span className="mono font-bold text-neutral-500">RAW ARTIFACT VIEW</span>
-              <span className="mono text-[11px] text-emerald-700">
+          <div className="rounded border border-[#111111] bg-white p-3.5">
+            <div className="mb-2 flex items-center justify-between border-b border-neutral-200 pb-1.5 text-xs">
+              <span className="mono font-bold text-[#666666]">RAW ARTIFACT SNIPPET</span>
+              <span className="mono text-[11px] font-bold text-[#20C979]">
                 OCR Confidence: {Math.round(document.ocrConfidence * 100)}%
               </span>
             </div>
-            <div className="relative rounded border border-dashed border-neutral-300 bg-neutral-50 p-4 font-mono text-xs leading-relaxed text-neutral-800">
+            <div className="relative rounded border border-dashed border-neutral-300 bg-[#F7F6F2] p-3 font-mono text-xs leading-relaxed text-[#111111]">
               <pre className="whitespace-pre-wrap font-mono">{document.rawSnippet}</pre>
               {highlightField && (
-                <div className="mt-3 border-2 border-amber-500 bg-amber-100/90 p-2 font-bold text-amber-950">
+                <div className="mt-2.5 rounded border border-[#D97706] bg-[#FEF3C7] p-2 font-bold text-[#92400E]">
                   <div className="flex items-center gap-1.5 text-[11px]">
                     <Eye size={13} />
                     <span>Highlighted Field: {highlightField}</span>
@@ -68,22 +68,22 @@ export function EvidenceModal({ document, highlightField, onClose }: EvidenceMod
           </div>
 
           {/* Extracted Fields Table */}
-          <div className="border-2 border-black bg-white p-4">
-            <p className="mono mb-2 text-xs font-black text-[#101010]">STRUCTURED EXTRACTIONS</p>
+          <div className="rounded border border-[#111111] bg-white p-3.5">
+            <p className="mono mb-2 text-xs font-black text-[#111111]">STRUCTURED EXTRACTIONS</p>
             <div className="grid gap-2 sm:grid-cols-2">
               {Object.entries(document.extractedFields).map(([key, value]) => {
                 const isHighlighted = highlightField && key.toLowerCase().includes(highlightField.toLowerCase());
                 return (
                   <div
                     key={key}
-                    className={`border p-2.5 transition-colors ${
+                    className={`rounded border p-2 transition-colors ${
                       isHighlighted
-                        ? "border-2 border-black bg-[#fff0b8]"
-                        : "border-neutral-300 bg-neutral-50"
+                        ? "border-[#D97706] bg-[#FEF3C7]"
+                        : "border-neutral-200 bg-[#F7F6F2]"
                     }`}
                   >
-                    <span className="mono block text-[10px] uppercase text-neutral-500">{key}</span>
-                    <span className="font-bold text-[#101010]">{value}</span>
+                    <span className="mono block text-[10px] uppercase text-[#666666]">{key}</span>
+                    <span className="font-bold text-[#111111]">{value}</span>
                   </div>
                 );
               })}
@@ -91,19 +91,19 @@ export function EvidenceModal({ document, highlightField, onClose }: EvidenceMod
           </div>
 
           {/* Verification Badge */}
-          <div className="flex items-center gap-2 border-2 border-black bg-[#e7f9ee] p-3 text-xs">
-            <ShieldCheck size={16} className="text-emerald-700" />
-            <span className="font-bold text-neutral-900">
-              Cryptographically timestamped & extracted via synthetic VLM pipeline.
+          <div className="flex items-center gap-2 rounded border border-[#111111] bg-[#DDF8EA] p-3 text-xs">
+            <ShieldCheck size={15} className="text-[#20C979]" />
+            <span className="font-bold text-[#111111]">
+              Cryptographically timestamped & verified via deterministic entity pipeline.
             </span>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="mt-4 flex items-center justify-end border-t-2 border-black pt-3">
+        <div className="mt-4 border-t border-[#111111] pt-3 text-right">
           <button
             onClick={onClose}
-            className="brutal-btn bg-black px-4 py-2 text-xs font-bold text-white hover:bg-neutral-800"
+            className="mono rounded border border-[#111111] bg-[#111111] px-4 py-1.5 text-xs font-black text-white hover:bg-[#333333]"
           >
             CLOSE VIEWER
           </button>
