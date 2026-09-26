@@ -1,20 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg: #f5f5f0;
+  --bg: #F5F3EE;
   --ink: #101010;
-  --muted: #686868;
-  --line: #171717;
-  --green: #54e38e;
-  --green-soft: #dff8e9;
-  --amber: #ffd166;
-  --red: #ff5c5c;
-  --blue: #bcd8ff;
-  --card: #fffef8;
+  --secondary: #555555;
+  --muted: #777777;
+  --line: #101010;
+  --line-subtle: #d8d6ce;
+  --accent: #20C77A;
+  --accent-secondary: #6F5CFF;
+  --warning: #F2A900;
+  --danger: #E85C65;
+  --card: #FFFFFF;
+  --card-warm: #FAF9F5;
+  --border-radius: 10px;
 }
 
 * {
@@ -23,18 +26,20 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg);
 }
 
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--ink);
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 button, input, select, textarea {
-  font: inherit;
+  font-family: inherit;
 }
 
 button {
@@ -42,36 +47,48 @@ button {
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--green);
+  background: #101010;
+  color: #20C77A;
 }
 
+/* Neo-Brutalist Core Utility Classes */
 .brutal-border {
   border: 2px solid var(--line);
+  border-radius: 10px;
+}
+
+.brutal-border-1 {
+  border: 1px solid var(--line);
+  border-radius: 8px;
 }
 
 .brutal-shadow {
-  box-shadow: 5px 5px 0px var(--line);
+  box-shadow: 4px 4px 0px var(--line);
 }
 
 .brutal-shadow-sm {
-  box-shadow: 3px 3px 0px var(--line);
+  box-shadow: 2px 2px 0px var(--line);
+}
+
+.brutal-shadow-md {
+  box-shadow: 4px 4px 0px var(--line);
 }
 
 .brutal-shadow-lg {
-  box-shadow: 8px 8px 0px var(--line);
+  box-shadow: 6px 6px 0px var(--line);
 }
 
 .brutal-btn {
   border: 2px solid var(--line);
-  box-shadow: 4px 4px 0px var(--line);
-  transition: all 0.1s ease;
+  box-shadow: 3px 3px 0px var(--line);
+  border-radius: 8px;
+  transition: transform 120ms ease, box-shadow 120ms ease;
   font-weight: 700;
 }
 
 .brutal-btn:hover {
   transform: translate(-1px, -1px);
-  box-shadow: 6px 6px 0px var(--line);
+  box-shadow: 5px 5px 0px var(--line);
 }
 
 .brutal-btn:active {
@@ -83,23 +100,16 @@ button {
   font-family: 'DM Mono', monospace;
 }
 
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(16, 16, 16, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 16, 16, 0.055) 1px, transparent 1px);
-  background-size: 32px 32px;
+/* Subtle Engineering Grid Background */
+.engineering-grid {
+  background-color: #F5F3EE;
+  background-image: 
+    linear-gradient(to right, rgba(16, 16, 16, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 16, 16, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-.interactive-dot {
-  width: 8px;
-  height: 8px;
-  border: 1px solid var(--line);
-  background: var(--green);
-  border-radius: 50%;
-  position: absolute;
-  transition: transform 120ms ease;
-}
-
+/* Route Line Connector */
 .route-line {
   height: 2px;
   background: var(--line);
@@ -107,21 +117,39 @@ button {
   min-width: 24px;
 }
 
-/* Custom scrollbars */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #f5f5f0;
+  background: #F5F3EE;
 }
 ::-webkit-scrollbar-thumb {
   background: #101010;
   border-radius: 0px;
 }
 
-@media (max-width: 768px) {
-  .desktop-nav {
-    display: none;
+/* Subtle Cursor styling */
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-enabled {
+    cursor: default;
+  }
+  .custom-cursor-enabled a,
+  .custom-cursor-enabled button,
+  .custom-cursor-enabled input,
+  .custom-cursor-enabled select,
+  .custom-cursor-enabled textarea,
+  .custom-cursor-enabled [role="button"] {
+    cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
